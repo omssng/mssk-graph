@@ -199,7 +199,7 @@
 </div>
 
 <script src="vendor/d3.v7.min.js"></script>
-<script src="data.js?v=4"></script>
+<script src="data.js?v=5"></script>
 <script>
 (function(){
 "use strict";
@@ -725,8 +725,14 @@ function showDetail(id){
 function esc(s){ return String(s).replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
 function renderIfcBox(n){
   const box = document.getElementById("ifcbox");
-  if(!n.ifc){ box.hidden = true; box.innerHTML=""; return; }
+  if(!n.code){ box.hidden = true; box.innerHTML=""; return; }   // корни разделов
   box.hidden = false;
+  if(!n.ifc){
+    box.innerHTML = `<div class="sec">Сущность IFC</div>`
+      + `<div class="none">Класс сущности IFC у этого кода в классификаторе не указан`
+      + `${n.kids ? " — это группа кодов, смотрите коды внутри неё" : ""}.</div>`;
+    return;
+  }
   const ref = (DATA.ifc || {})[n.ifc];
   let h = `<div class="sec">Сущность IFC</div><div class="ent">${esc(n.ifc)}</div>`;
   h += `<div class="chain">В IFC-файле элемент — экземпляр <code>${esc(n.ifc)}</code>; `
