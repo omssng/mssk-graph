@@ -7,13 +7,13 @@
 <title>Граф кодов МССК 5.0</title>
 <style>
   :root{
-    --bg:#f4f5f7; --panel:#ffffff; --ink:#1d2330; --muted:#6b7280; --line:#dfe3ea;
+    --bg:#f4f5f7; --panel:#ffffff; --ink:#1d2330; --muted:#6b7280; --dim:#9aa1ad; --line:#dfe3ea;
     --accent:#2f6fed; --shadow:0 1px 3px rgba(20,25,40,.12),0 6px 24px rgba(20,25,40,.08);
     --nodefill:#5b6675; --nodeink:#ffffff; --hi:#ff8c1a;
     --chipbg:#e7ebf3; --chipbd:#c2ccdd; --chipink:#3a465c;
   }
   @media (prefers-color-scheme:dark){
-    :root{ --bg:#12151c; --panel:#1a1f29; --ink:#e6e9ef; --muted:#9aa3b2; --line:#2b323f;
+    :root{ --bg:#12151c; --panel:#1a1f29; --ink:#e6e9ef; --muted:#9aa3b2; --dim:#666f7e; --line:#2b323f;
       --accent:#5b8cff; --shadow:0 1px 3px rgba(0,0,0,.5),0 8px 30px rgba(0,0,0,.4);
       --nodefill:#3a4351; --nodeink:#e9ecf2; --hi:#ff9d3d;
       --chipbg:#293040; --chipbd:#3b4557; --chipink:#c3cde0; }
@@ -118,6 +118,13 @@
 
   .node circle{cursor:pointer}
   .node text{fill:var(--ink);paint-order:stroke;stroke:var(--bg);stroke-width:3px;stroke-linejoin:round}
+  /* в дереве/радиальном подпись разбита на части: имя приглушено, код чуть ярче */
+  .node text .nm-part{fill:var(--dim);transition:fill .12s ease}
+  .node text .cd-part{fill:var(--muted);transition:fill .12s ease}
+  .node text.focuslbl .nm-part{fill:var(--muted)}
+  .node text.focuslbl .cd-part{fill:var(--ink);font-weight:700}
+  .node:hover text .nm-part,.node:hover text .cd-part{fill:var(--ink)}
+  .node.issel text .nm-part,.node.issel text .cd-part{fill:var(--ink)}
   .link{fill:none;stroke:#8a94a6;stroke-opacity:.42;stroke-width:1.3px}
   .cell{cursor:pointer;stroke:var(--bg);stroke-width:1px}
   .cell:hover{stroke:var(--ink);stroke-width:1.5px}
@@ -195,7 +202,7 @@
 </div>
 
 <script src="vendor/d3.v7.min.js"></script>
-<script src="data.js?v=9"></script>
+<script src="data.js?v=10"></script>
 <script>
 (function(){
 "use strict";
@@ -403,13 +410,23 @@ function renderTree(root, focus, radial){
     })
     .attr("transform", radial ? d=>{ let deg=(d.x-Math.PI/2)*180/Math.PI; const flip=(deg>90&&deg<270);
       return `rotate(${deg}) translate(${flip?-11:11},0) ${flip?'rotate(180)':''}`; } : null)
+    .classed("focuslbl", d=> d===focus)
     .style("font-size", d=> d===focus?"13px":(dense?"9px":"11px"))
     .style("font-weight", d=> d===focus?"700":"400")
-    .style("fill", d=> (!radial && !(d.children||d._children)) ? "var(--muted)" : "var(--ink)")
-    .text(d=>{
-      if(radial) return label(d.data, 24);
+    .each(function(d){
+      const t = d3.select(this);
       const endA = !!(d.children||d._children);
-      return treeLabel(d.data, dense ? (endA?20:23) : 44, endA);
+      const p = radial ? treeLabelParts(d.data, 24, false)
+                       : treeLabelParts(d.data, dense ? (endA?20:23) : 44, endA);
+      if(!p.code){ t.text(p.name); return; }
+      const sep = " · ";
+      if(p.order === "name-code"){
+        t.append("tspan").attr("class","nm-part").text(p.name + sep);
+        t.append("tspan").attr("class","cd-part").text(p.code);
+      } else {
+        t.append("tspan").attr("class","cd-part").text(p.code + sep);
+        t.append("tspan").attr("class","nm-part").text(p.name);
+      }
     })
     .on("click",(ev,d)=>{ ev.stopPropagation(); select(d.data.id); });
 
@@ -604,13 +621,15 @@ function trunc(s, n){ n = Math.max(4, n|0); return s.length>n ? s.slice(0,n-1)+"
 function label(nd, max){
   return nd.code ? trunc(nd.code + " · " + nd.name, max) : trunc(nd.name, max);
 }
-/* подпись в дереве: у узлов с подписью слева (end-anchored) код ставим последним,
-   чтобы коды выстроились в колонку у самого узла; режем при этом имя, код целиком */
-function treeLabel(nd, max, endAnchored){
-  if(!nd.code) return trunc(nd.name, max);
-  if(!endAnchored) return trunc(nd.code + " · " + nd.name, max);
-  const budget = Math.max(6, (max|0) - nd.code.length - 3);
-  return trunc(nd.name, budget) + " · " + nd.code;
+/* подпись в дереве/радиальном, разбитая на части (имя приглушается, код ярче):
+   у узлов с подписью слева (end-anchored) код ставим последним, чтобы коды
+   выстроились в колонку у самого узла; режем имя, код целиком */
+function treeLabelParts(nd, max, endAnchored){
+  if(!nd.code) return {name: trunc(nd.name, max), code: "", order: "name"};
+  const budget = Math.max(4, (max|0) - nd.code.length - 3);
+  return endAnchored
+    ? {name: trunc(nd.name, budget), code: nd.code, order: "name-code"}
+    : {name: trunc(nd.name, budget), code: nd.code, order: "code-name"};
 }
 function toggle(d, fromList){
   const id = d.data.id;
