@@ -199,7 +199,7 @@
 </div>
 
 <script src="vendor/d3.v7.min.js"></script>
-<script src="data.js?v=5"></script>
+<script src="data.js?v=6"></script>
 <script>
 (function(){
 "use strict";
@@ -559,7 +559,7 @@ function renderList(root, focus){
     const open = kids.length && !state.collapsed.has(d.data.id) &&
       ((d.depth-focus.depth)<state.__listAutoDepth || state.expanded.has(d.data.id));
     const tw = li.append("div").attr("class","tw"+(state.selected===d.data.id?" sel":""))
-      .on("click",()=>{ select(d.data.id); if(kids.length) toggle(d,true); });
+      .on("click",()=>{ toggle(d,true); });
     tw.append("span").attr("class","tg").text(kids.length ? (open?"▾":"▸") : "");
     tw.append("span").attr("class","cd").style("color",CLS_COLORS[d.data.cls]||"var(--ink)").text(d.data.code||d.data.name);
     if(d.data.code) tw.append("span").attr("class","nm").text(d.data.name);
@@ -598,8 +598,9 @@ function label(nd, max){
 }
 function toggle(d, fromList){
   const id = d.data.id;
+  select(id);                                   // всегда открыть панель узла (в т.ч. разбор IFC)
   const kids = d._all || d.children || d._children;
-  if(!kids || !kids.length) { select(id); return; }
+  if(!kids || !kids.length) return;             // конечный узел — только выделили
   const isOpen = fromList
     ? (!state.collapsed.has(id) && ((d.depth-CUR.focus.depth)<(state.__listAutoDepth||2) || state.expanded.has(id)))
     : !!d.children;
