@@ -47,14 +47,6 @@
   #results .cd{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:11px;color:var(--accent)}
   #results .nm{color:var(--muted);font-size:11px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-  .optlist{display:flex;flex-direction:column;gap:14px;margin-top:2px}
-  .opt{display:grid;grid-template-columns:16px 1fr;column-gap:9px;row-gap:3px;cursor:pointer;padding:2px 0}
-  .opt input{grid-column:1;grid-row:1 / span 2;width:14px;height:14px;margin:1px 0 0;cursor:pointer}
-  .opt b{grid-column:2;grid-row:1;font-weight:600;font-size:12px;line-height:1.3}
-  .opt small{grid-column:2;grid-row:2;color:var(--muted);font-size:11px;line-height:1.5}
-  .opt:hover b{color:var(--accent)}
-  .opt code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;background:var(--bg);padding:0 3px;border-radius:3px}
-
   main{flex:1;position:relative;height:100%;min-width:0}
   #stage{position:absolute;inset:0;overflow:hidden}
   #stage svg{width:100%;height:100%;display:block;cursor:grab}
@@ -156,22 +148,6 @@
       </div>
       <p class="hint" id="colorhint"></p>
     </fieldset>
-    <fieldset>
-      <legend>Свойства IFC</legend>
-      <p class="hint" style="margin:0 0 10px">Классы IFC есть у кодов раздела&nbsp;07 «Элементы» (754&nbsp;кода) — они говорят, какой сущностью элемент описан в IFC-файле.</p>
-      <div class="optlist">
-        <label class="opt">
-          <input type="checkbox" id="ifcPanel">
-          <b>Показывать разбор в панели</b>
-          <small>Клик по коду раздела&nbsp;07 → справа появляется его IFC-класс, значения <code>PredefinedType</code> и таблица свойств <code>Pset</code> с типами.</small>
-        </label>
-        <label class="opt">
-          <input type="checkbox" id="ifcOnly">
-          <b>Оставить только коды с IFC-классом</b>
-          <small>Прячет из графа ветки, не привязанные к сущностям IFC. Имеет смысл в разделе&nbsp;07.</small>
-        </label>
-      </div>
-    </fieldset>
   </div>
 </aside>
 
@@ -192,8 +168,8 @@
     </div>
     <div class="pill" id="depthpill">
       <span>глубина</span>
-      <input type="range" id="depth" min="1" max="6" value="2" style="width:96px">
-      <b id="depthval">2</b>
+      <input type="range" id="depth" min="1" max="6" value="1" style="width:96px">
+      <b id="depthval">1</b>
     </div>
     <button class="btn" id="expandAll">развернуть</button>
     <button class="btn" id="collapseAll">свернуть</button>
@@ -223,7 +199,7 @@
 </div>
 
 <script src="vendor/d3.v7.min.js"></script>
-<script src="data.js?v=3"></script>
+<script src="data.js?v=4"></script>
 <script>
 (function(){
 "use strict";
@@ -264,25 +240,10 @@ function rootFor(clsId){
 
 const state = {
   view:"tree", cls:"07", focus:null,
-  color:"depth", maxDepth:2, colorManual:false,
-  ifcPanel:false, ifcOnly:false,
+  color:"depth", maxDepth:1, colorManual:false,
   collapsed:new Set(), expanded:new Set(),
   selected:null, matches:new Set(), q:""
 };
-/* id узлов, у которых есть класс IFC в поддереве (для фильтра «только с IFC») */
-const IFC_KEEP = (()=>{
-  const kids = new Map();
-  ALL_NODES.forEach(n=>{ if(n.parent){ (kids.get(n.parent)||kids.set(n.parent,[]).get(n.parent)).push(n.id); } });
-  const keep = new Set();
-  const has = id=>{
-    const n = BY_ID.get(id); let ok = !!(n && n.ifc);
-    for(const c of (kids.get(id)||[])) if(has(c)) ok = true;
-    if(ok) keep.add(id);
-    return ok;
-  };
-  ALL_NODES.forEach(n=>{ if(n.parent===null) has(n.id); });
-  return keep;
-})();
 state.focus = rootFor(state.cls);
 /* автоцвет: «Все разделы» → по разделу, один раздел → по глубине (пока пользователь не выбрал сам) */
 function autoColor(){
@@ -299,9 +260,6 @@ function buildHierarchy(){
       .concat(ALL_NODES.map(n=> n.parent===null ? Object.assign({},n,{parent:"#ALL"}) : n));
   } else {
     subset = ALL_NODES.filter(n=> n.cls===state.cls);
-  }
-  if(state.ifcOnly){
-    subset = subset.filter(n=> n.parent===null || IFC_KEEP.has(n.id));
   }
   const root = d3.stratify().id(d=>d.id).parentId(d=>d.parent)(subset);
   root.eachAfter(d=>{
@@ -336,9 +294,10 @@ svg.call(zoom).on("dblclick.zoom", null);
 function size(){ return [stage.clientWidth, stage.clientHeight]; }
 function clearStage(){ gRoot.selectAll("*").remove(); }
 function resetZoom(){ const T=d3.zoomIdentity.translate(0,44); svg.node().__zoom=T; gRoot.attr("transform",T); }
-/* вписать содержимое группы g в холст (замер через getBBox, после отрисовки кадра) */
+/* вписать содержимое группы g в холст (замер через getBBox) */
 function frameGroup(g, padTop){
-  requestAnimationFrame(()=> _frameNow(g, padTop));
+  _frameNow(g, padTop);                              // сразу (getBBox форсит лейаут)
+  requestAnimationFrame(()=> _frameNow(g, padTop));  // и после кадра — когда шрифты дометрились
 }
 function _frameNow(g, padTop){
   padTop = padTop==null ? 120 : padTop;
@@ -649,8 +608,11 @@ function toggle(d, fromList){
   render();
 }
 function setFocus(id){
-  state.focus = id; state.collapsed.clear(); state.expanded.clear();
+  const isRoot = String(id).startsWith("#");
   const n = BY_ID.get(id);
+  // конечный узел нельзя сделать корнем — «нырять» некуда; просто выделяем
+  if(!isRoot && (!n || !n.kids)){ if(id) select(id); return; }
+  state.focus = id; state.collapsed.clear(); state.expanded.clear();
   if(n && n.cls && n.cls!=="ALL" && n.cls!==state.cls){ state.cls=n.cls; syncClsUI(); }
   render();
 }
@@ -763,7 +725,7 @@ function showDetail(id){
 function esc(s){ return String(s).replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
 function renderIfcBox(n){
   const box = document.getElementById("ifcbox");
-  if(!state.ifcPanel || !n.ifc){ box.hidden = true; box.innerHTML=""; return; }
+  if(!n.ifc){ box.hidden = true; box.innerHTML=""; return; }
   box.hidden = false;
   const ref = (DATA.ifc || {})[n.ifc];
   let h = `<div class="sec">Сущность IFC</div><div class="ent">${esc(n.ifc)}</div>`;
@@ -835,7 +797,10 @@ qEl.addEventListener("input", ()=>{
       state.focus = anc.length>3 ? anc[anc.length-3].id : anc[0].id;
       state.collapsed.clear();
       anc.forEach(x=>state.expanded.add(x.id));
-      select(n.id);
+      state.selected = n.id;
+      render();                 // перестроить холст под новый фокус
+      showDetail(n.id);         // и открыть панель узла
+      paintSelection();
     };
     resEl.append(a);
   });
@@ -879,7 +844,7 @@ document.querySelectorAll("#colorseg button").forEach(b=>{
   b.onclick = ()=>{ state.color=b.dataset.c; state.colorManual=true;
     document.querySelectorAll("#colorseg button").forEach(x=>x.classList.toggle("on",x===b));
     document.getElementById("colorhint").textContent =
-      b.dataset.c==="ifc" ? "класс IFC заполнен только в разделе 07 «Элементы»" :
+      b.dataset.c==="ifc" ? "цвет = класс сущности IFC (там, где он указан в классификаторе)" :
       b.dataset.c==="depth" ? "оттенок = насколько глубоко код от корня" :
       "цвет = раздел классификатора (виден при «Все разделы»)";
     render(); };
@@ -887,18 +852,6 @@ document.querySelectorAll("#colorseg button").forEach(b=>{
 const depthEl = document.getElementById("depth"), depthVal = document.getElementById("depthval");
 depthEl.oninput = ()=>{ state.maxDepth = +depthEl.value; depthVal.textContent = depthEl.value; render(); };
 
-document.getElementById("ifcPanel").addEventListener("change", e=>{
-  state.ifcPanel = e.target.checked;
-  if(state.selected) showDetail(state.selected);   // перерисовать панель без перекомпоновки
-});
-document.getElementById("ifcOnly").addEventListener("change", e=>{
-  state.ifcOnly = e.target.checked;
-  state.collapsed.clear(); state.expanded.clear();
-  // фокус мог выпасть из отфильтрованного дерева — вернуться к корню раздела
-  const isRoot = String(state.focus).startsWith("#");
-  if(state.ifcOnly && !isRoot && !IFC_KEEP.has(state.focus)) state.focus = rootFor(state.cls);
-  render();
-});
 document.getElementById("expandAll").onclick = ()=>{
   state.collapsed.clear();
   CUR.root.each(d=> state.expanded.add(d.data.id));
@@ -909,8 +862,8 @@ document.getElementById("collapseAll").onclick = ()=>{
   state.maxDepth = 1; depthEl.value=1; depthVal.textContent="1"; render();
 };
 document.getElementById("resetView").onclick = ()=>{
-  state.collapsed.clear(); state.expanded.clear(); state.maxDepth=2;
-  depthEl.value=2; depthVal.textContent="2";
+  state.collapsed.clear(); state.expanded.clear(); state.maxDepth=1;
+  depthEl.value=1; depthVal.textContent="1";
   state.selected=null; document.getElementById("detail").classList.remove("on");
   state.focus = rootFor(state.cls);
   render();
