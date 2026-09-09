@@ -1,6 +1,6 @@
 {
  "meta": {
-  "built": "2026-09-09 11:56",
+  "built": "2026-09-09 16:33",
   "source": "Классификаторы для информационного моделирования (МССК 5.0), Мосгосэкспертиза, 2024",
   "nodes": 8782
  },
@@ -87973,5 +87973,3400 @@
    "parent": "#13",
    "kids": 8
   }
- ]
+ ],
+ "ifc": {
+  "IfcAirTerminal": {
+   "predef": [
+    "DIFFUSER",
+    "GRILLE",
+    "LOUVRE",
+    "REGISTER",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_AirTerminalTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "Shape",
+      "PEnum_AirTerminalShape"
+     ],
+     [
+      "FaceType",
+      "PEnum_AirTerminalFaceType"
+     ],
+     [
+      "FlowPattern",
+      "PEnum_AirTerminalFlowPattern"
+     ],
+     [
+      "AirFlowrateRange",
+      "IfcVolumetricFlowRateMeasure"
+     ],
+     [
+      "TemperatureRange",
+      "IfcThermodynamicTemperatureMeasure"
+     ],
+     [
+      "FinishType",
+      "PEnum_AirTerminalFinishType"
+     ]
+    ]
+   }
+  },
+  "IfcAirTerminalBox": {
+   "predef": [
+    "CONSTANTFLOW",
+    "VARIABLEFLOWPRESSUREDEPENDANT",
+    "VARIABLEFLOWPRESSUREINDEPENDANT",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_AirTerminalBoxTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "AirFlowRateMin",
+      "IfcVolumetricFlowRateMeasure"
+     ],
+     [
+      "AirFlowRateMax",
+      "IfcVolumetricFlowRateMeasure"
+     ],
+     [
+      "ReheatType",
+      "PEnum_AirTerminalBoxReheatType"
+     ]
+    ]
+   }
+  },
+  "IfcAirToAirHeatRecovery": {
+   "predef": [
+    "FIXEDPLATECOUNTERFLOWEXCHANGER",
+    "FIXEDPLATECROSSFLOWEXCHANGER",
+    "FIXEDPLATEPARALLELFLOWEXCHANGER",
+    "ROTARYWHEEL",
+    "RUNAROUNDCOILLOOP",
+    "HEATPIPE",
+    "TWINTOWERENTHALPYRECOVERYLOOPS",
+    "THERMOSIPHONSEALEDTUBEHEATEXCHANGERS",
+    "THERMOSIPHONCOILTYPEHEATEXCHANGERS",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_AirToAirHeatRecoveryTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "HeatTransferTypeEnum",
+      "IfcLabel"
+     ],
+     [
+      "SensibleHeatRecoveryEfficiency",
+      "IfcReal"
+     ],
+     [
+      "LatentHeatRecoveryEfficiency",
+      "IfcReal"
+     ]
+    ]
+   }
+  },
+  "IfcAlarm": {
+   "predef": [
+    "BELL",
+    "BREAKGLASSBUTTON",
+    "LIGHT",
+    "MANUALPULLBOX",
+    "SIREN",
+    "WHISTLE",
+    "RAILWAYEMERGENCYCROSSING",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_AlarmTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ]
+    ]
+   }
+  },
+  "IfcAlignment": {
+   "predef": [
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {},
+   "hint": "трасса/ось (план + профиль + вираж) — линейная опора для размещения элементов инфраструктуры (IFC4.3)"
+  },
+  "IfcAudioVisualAppliance": {
+   "predef": [
+    "AMPLIFIER",
+    "CAMERA",
+    "DISPLAY",
+    "MICROPHONE",
+    "PLAYER",
+    "PROJECTOR",
+    "RECEIVER",
+    "SPEAKER",
+    "SWITCHER",
+    "TELEPHONE",
+    "TUNER",
+    "COMMUNICATIONTERMINAL",
+    "RECORDINGDEVICE",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_AudioVisualApplianceTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ]
+    ]
+   }
+  },
+  "IfcBeam": {
+   "predef": [
+    "BEAM",
+    "JOIST",
+    "HOLLOWCORE",
+    "LINTEL",
+    "SPANDREL",
+    "T_BEAM",
+    "GIRDER_SEGMENT",
+    "DIAPHRAGM",
+    "PIERCAP",
+    "HATSTONE",
+    "CORNICE",
+    "EDGEBEAM",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_BeamCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "Span",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "Slope",
+      "IfcPlaneAngleMeasure"
+     ],
+     [
+      "Roll",
+      "IfcPlaneAngleMeasure"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ],
+     [
+      "ThermalTransmittance",
+      "IfcThermalTransmittanceMeasure"
+     ],
+     [
+      "LoadBearing",
+      "IfcBoolean"
+     ],
+     [
+      "FireRating",
+      "IfcLabel"
+     ]
+    ]
+   },
+   "qto": "Qto_BeamBaseQuantities: Length, CrossSectionArea, OuterSurfaceArea, GrossSurfaceArea, NetSurfaceArea, GrossVolume, NetVolume, GrossWeight, NetWeight"
+  },
+  "IfcBoiler": {
+   "predef": [
+    "WATER",
+    "STEAM",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_BoilerTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "OperatingMode",
+      "PEnum_BoilerOperatingMode"
+     ],
+     [
+      "EnergySource",
+      "PEnum_EnergySource"
+     ],
+     [
+      "NominalEnergyConsumption",
+      "IfcPowerMeasure"
+     ],
+     [
+      "OutputCapacity",
+      "IfcPowerMeasure"
+     ],
+     [
+      "NominalPartLoadRatio",
+      "IfcPositiveRatioMeasure"
+     ],
+     [
+      "WaterInletTemperatureRange",
+      "IfcThermodynamicTemperatureMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcBuildingElementProxy": {
+   "predef": [
+    "COMPLEX",
+    "ELEMENT",
+    "PARTIAL",
+    "PROVISIONFORVOID",
+    "PROVISIONFORSPACE",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_BuildingElementProxyCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ],
+     [
+      "ThermalTransmittance",
+      "IfcThermalTransmittanceMeasure"
+     ],
+     [
+      "LoadBearing",
+      "IfcBoolean"
+     ],
+     [
+      "FireRating",
+      "IfcLabel"
+     ]
+    ]
+   },
+   "hint": "«обёртка» для элемента без своей сущности IFC — свойства минимальны, суть задаётся именем/классификацией"
+  },
+  "IfcBurner": {
+   "predef": [
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_BurnerTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ]
+    ]
+   }
+  },
+  "IfcCableCarrierFitting": {
+   "predef": [
+    "BEND",
+    "CROSS",
+    "REDUCER",
+    "TEE",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_CableCarrierFittingTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NominalWidth",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalHeight",
+      "IfcPositiveLengthMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcCableCarrierSegment": {
+   "predef": [
+    "CABLELADDERSEGMENT",
+    "CABLETRAYSEGMENT",
+    "CABLETRUNKINGSEGMENT",
+    "CONDUITSEGMENT",
+    "CABLEBRACKET",
+    "CATENARYWIRE",
+    "DROPPER",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_CableCarrierSegmentTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NominalWidth",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalHeight",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NumberOfCableSupports",
+      "IfcInteger"
+     ]
+    ]
+   }
+  },
+  "IfcCableFitting": {
+   "predef": [
+    "CONNECTOR",
+    "ENTRY",
+    "EXIT",
+    "JUNCTION",
+    "TRANSITION",
+    "FANOUT",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_CableFittingTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "FittingType",
+      "IfcLabel"
+     ],
+     [
+      "NumberOfGangs",
+      "IfcInteger"
+     ]
+    ]
+   }
+  },
+  "IfcCableSegment": {
+   "predef": [
+    "BUSBARSEGMENT",
+    "CABLESEGMENT",
+    "CONDUCTORSEGMENT",
+    "CORESEGMENT",
+    "CONTACTWIRESEGMENT",
+    "FIBERSEGMENT",
+    "FIBERTUBE",
+    "OPTICALCABLESEGMENT",
+    "STITCHWIRE",
+    "WIREPAIRSEGMENT",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_CableSegmentTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "CrossSectionalArea",
+      "IfcAreaMeasure"
+     ],
+     [
+      "NumberOfConductors",
+      "IfcInteger"
+     ],
+     [
+      "ConductorFunction",
+      "IfcLabel"
+     ],
+     [
+      "NominalDiameter",
+      "IfcPositiveLengthMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcChiller": {
+   "predef": [
+    "AIRCOOLED",
+    "WATERCOOLED",
+    "HEATRECOVERY",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_ChillerTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NominalCapacity",
+      "IfcPowerMeasure"
+     ],
+     [
+      "NominalCondensingTemperature",
+      "IfcThermodynamicTemperatureMeasure"
+     ],
+     [
+      "NominalEvaporatingTemperature",
+      "IfcThermodynamicTemperatureMeasure"
+     ],
+     [
+      "NominalPowerConsumption",
+      "IfcPowerMeasure"
+     ],
+     [
+      "COP",
+      "IfcReal"
+     ]
+    ]
+   }
+  },
+  "IfcChimney": {
+   "predef": [
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_ChimneyCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "FireRating",
+      "IfcLabel"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ],
+     [
+      "NominalDiameter",
+      "IfcPositiveLengthMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcColumn": {
+   "predef": [
+    "COLUMN",
+    "PILASTER",
+    "PIERSTEM",
+    "PIERSTEM_SEGMENT",
+    "STANDCOLUMN",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_ColumnCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "Slope",
+      "IfcPlaneAngleMeasure"
+     ],
+     [
+      "Roll",
+      "IfcPlaneAngleMeasure"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ],
+     [
+      "ThermalTransmittance",
+      "IfcThermalTransmittanceMeasure"
+     ],
+     [
+      "LoadBearing",
+      "IfcBoolean"
+     ],
+     [
+      "FireRating",
+      "IfcLabel"
+     ]
+    ]
+   },
+   "qto": "Qto_ColumnBaseQuantities: Length, CrossSectionArea, OuterSurfaceArea, GrossSurfaceArea, NetSurfaceArea, GrossVolume, NetVolume, GrossWeight, NetWeight"
+  },
+  "IfcCommunicationsAppliance": {
+   "predef": [
+    "ANTENNA",
+    "COMPUTER",
+    "FAX",
+    "GATEWAY",
+    "MODEM",
+    "NETWORKAPPLIANCE",
+    "NETWORKBRIDGE",
+    "NETWORKHUB",
+    "PRINTER",
+    "REPEATER",
+    "ROUTER",
+    "SCANNER",
+    "AUTOMATION",
+    "INTERCEPTINGDEVICE",
+    "LINESIDEELECTRONICUNIT",
+    "RADIOBLOCKCENTER",
+    "TELECOMMAND",
+    "TELEPHONYEXCHANGE",
+    "TRANSITIONCOMPONENT",
+    "TRANSPONDINGEQUIPMENT",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_CommunicationsApplianceTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ]
+    ]
+   }
+  },
+  "IfcController": {
+   "predef": [
+    "FLOATING",
+    "PROGRAMMABLE",
+    "PROPORTIONAL",
+    "MULTIPOSITION",
+    "TWOPOSITION",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_ControllerTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ]
+    ]
+   }
+  },
+  "IfcCovering": {
+   "predef": [
+    "CEILING",
+    "FLOORING",
+    "CLADDING",
+    "ROOFING",
+    "MOLDING",
+    "SKIRTINGBOARD",
+    "INSULATION",
+    "MEMBRANE",
+    "SLEEVING",
+    "WRAPPING",
+    "COPING",
+    "TOPPING",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_CoveringCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "AcousticRating",
+      "IfcLabel"
+     ],
+     [
+      "FireRating",
+      "IfcLabel"
+     ],
+     [
+      "Combustible",
+      "IfcBoolean"
+     ],
+     [
+      "SurfaceSpreadOfFlame",
+      "IfcLabel"
+     ],
+     [
+      "Finish",
+      "IfcLabel"
+     ],
+     [
+      "ThermalTransmittance",
+      "IfcThermalTransmittanceMeasure"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ],
+     [
+      "FlammabilityRating",
+      "IfcLabel"
+     ],
+     [
+      "FragilityRating",
+      "IfcLabel"
+     ],
+     [
+      "ThermalConductivity",
+      "IfcThermalConductivityMeasure"
+     ]
+    ]
+   },
+   "qto": "Qto_CoveringBaseQuantities: GrossArea, NetArea, Width"
+  },
+  "IfcCurtainWall": {
+   "predef": [
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_CurtainWallCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "AcousticRating",
+      "IfcLabel"
+     ],
+     [
+      "FireRating",
+      "IfcLabel"
+     ],
+     [
+      "Combustible",
+      "IfcBoolean"
+     ],
+     [
+      "SurfaceSpreadOfFlame",
+      "IfcLabel"
+     ],
+     [
+      "ThermalTransmittance",
+      "IfcThermalTransmittanceMeasure"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ]
+    ]
+   }
+  },
+  "IfcDamper": {
+   "predef": [
+    "BACKDRAFTDAMPER",
+    "BALANCINGDAMPER",
+    "BLASTDAMPER",
+    "CONTROLDAMPER",
+    "FIREDAMPER",
+    "FIRESMOKEDAMPER",
+    "FUMEHOODEXHAUST",
+    "GRAVITYDAMPER",
+    "GRAVITYRELIEFDAMPER",
+    "RELIEFDAMPER",
+    "SMOKEDAMPER",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_DamperTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "FireResistanceRating",
+      "IfcLabel"
+     ],
+     [
+      "Orientation",
+      "PEnum_ElementOrientation"
+     ],
+     [
+      "OpenPressureDrop",
+      "IfcPressureMeasure"
+     ],
+     [
+      "LeakageAtClosedPosition",
+      "IfcReal"
+     ],
+     [
+      "BladeAction",
+      "PEnum_DamperBladeAction"
+     ],
+     [
+      "BladeShape",
+      "PEnum_DamperBladeShape"
+     ]
+    ]
+   }
+  },
+  "IfcDiscreteAccessory": {
+   "predef": [
+    "ANCHORPLATE",
+    "BRACKET",
+    "SHOE",
+    "EXPANSION_JOINT_DEVICE",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_DiscreteAccessoryCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ]
+    ]
+   }
+  },
+  "IfcDistributionChamberElement": {
+   "predef": [
+    "FORMEDDUCT",
+    "INSPECTIONCHAMBER",
+    "INSPECTIONPIT",
+    "MANHOLE",
+    "METERCHAMBER",
+    "SUMP",
+    "TRENCH",
+    "VALVECHAMBER",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_DistributionChamberElementTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NominalLength",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalWidth",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalDepth",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "ClearDepth",
+      "IfcPositiveLengthMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcDoor": {
+   "predef": [
+    "DOOR",
+    "GATE",
+    "TRAPDOOR",
+    "BOOM_BARRIER",
+    "TURNSTILE",
+    "REVOLVINGDOOR",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_DoorCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "FireRating",
+      "IfcLabel"
+     ],
+     [
+      "AcousticRating",
+      "IfcLabel"
+     ],
+     [
+      "SecurityRating",
+      "IfcLabel"
+     ],
+     [
+      "DurabilityRating",
+      "IfcLabel"
+     ],
+     [
+      "HygrothermalRating",
+      "IfcLabel"
+     ],
+     [
+      "WaterTightnessRating",
+      "IfcLabel"
+     ],
+     [
+      "MechanicalLoadRating",
+      "IfcLabel"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ],
+     [
+      "Infiltration",
+      "IfcVolumetricFlowRateMeasure"
+     ],
+     [
+      "ThermalTransmittance",
+      "IfcThermalTransmittanceMeasure"
+     ],
+     [
+      "GlazingAreaFraction",
+      "IfcPositiveRatioMeasure"
+     ],
+     [
+      "HandicapAccessible",
+      "IfcBoolean"
+     ],
+     [
+      "FireExit",
+      "IfcBoolean"
+     ],
+     [
+      "SelfClosing",
+      "IfcBoolean"
+     ],
+     [
+      "SmokeStop",
+      "IfcBoolean"
+     ]
+    ]
+   },
+   "qto": "Qto_DoorBaseQuantities: Width, Height, Perimeter, Area"
+  },
+  "IfcDuctFitting": {
+   "predef": [
+    "BEND",
+    "CONNECTOR",
+    "ENTRY",
+    "EXIT",
+    "JUNCTION",
+    "OBSTRUCTION",
+    "TRANSITION",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_DuctFittingTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NominalDiameter",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalWidth",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalHeight",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "FittingLossFactor",
+      "IfcReal"
+     ],
+     [
+      "PressureClass",
+      "IfcPressureMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcDuctSegment": {
+   "predef": [
+    "RIGIDSEGMENT",
+    "FLEXIBLESEGMENT",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_DuctSegmentTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NominalDiameter",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalWidth",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalHeight",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "CrossSectionShape",
+      "PEnum_DuctSegmentShape"
+     ],
+     [
+      "Roughness",
+      "IfcReal"
+     ]
+    ]
+   }
+  },
+  "IfcDuctSilencer": {
+   "predef": [
+    "FLATOVAL",
+    "RECTANGULAR",
+    "ROUND",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_DuctSilencerTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NominalWidth",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalHeight",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalLength",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "PressureDrop",
+      "IfcPressureMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcEarthworksElement": {
+   "predef": [
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {},
+   "hint": "земляной массив/насыпь/выемка (IFC4.3, инфраструктура)"
+  },
+  "IfcElectricAppliance": {
+   "predef": [
+    "DISHWASHER",
+    "ELECTRICCOOKER",
+    "FREESTANDINGELECTRICHEATER",
+    "FREESTANDINGFAN",
+    "FREESTANDINGWATERHEATER",
+    "FREESTANDINGWATERCOOLER",
+    "FREEZER",
+    "FRIDGE_FREEZER",
+    "HANDDRYER",
+    "KITCHENMACHINE",
+    "MICROWAVE",
+    "PHOTOCOPIER",
+    "REFRIGERATOR",
+    "TUMBLEDRYER",
+    "VENDINGMACHINE",
+    "WASHINGMACHINE",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_ElectricApplianceTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "IsCord",
+      "IfcBoolean"
+     ]
+    ]
+   }
+  },
+  "IfcElectricDistributionBoard": {
+   "predef": [
+    "CONSUMERUNIT",
+    "DISTRIBUTIONBOARD",
+    "MOTORCONTROLCENTRE",
+    "SWITCHBOARD",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_ElectricDistributionBoardTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NumberOfControllerOutlets",
+      "IfcInteger"
+     ],
+     [
+      "EnclosureIP_Rating",
+      "IfcLabel"
+     ]
+    ]
+   }
+  },
+  "IfcElectricFlowStorageDevice": {
+   "predef": [
+    "BATTERY",
+    "CAPACITORBANK",
+    "HARMONICFILTER",
+    "INDUCTORBANK",
+    "UPS",
+    "CAPACITOR",
+    "COMPENSATOR",
+    "INDUCTOR",
+    "RECHARGEABLEBATTERY",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_ElectricFlowStorageDeviceTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ]
+    ]
+   }
+  },
+  "IfcElectricGenerator": {
+   "predef": [
+    "CHP",
+    "ENGINEGENERATOR",
+    "STANDALONE",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_ElectricGeneratorTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ]
+    ]
+   }
+  },
+  "IfcElectricMotor": {
+   "predef": [
+    "DC",
+    "INDUCTION",
+    "POLYPHASE",
+    "RELUCTANCESYNCHRONOUS",
+    "SYNCHRONOUS",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_ElectricMotorTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "MotorEnclosureType",
+      "IfcLabel"
+     ],
+     [
+      "InsulationClass",
+      "IfcLabel"
+     ],
+     [
+      "StartCurrent",
+      "IfcElectricCurrentMeasure"
+     ],
+     [
+      "RatedCurrent",
+      "IfcElectricCurrentMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcElementAssembly": {
+   "predef": [
+    "ACCESSORY_ASSEMBLY",
+    "ARCH",
+    "BEAM_GRID",
+    "BRACED_FRAME",
+    "GIRDER",
+    "REINFORCEMENT_UNIT",
+    "RIGID_FRAME",
+    "SLAB_FIELD",
+    "TRUSS",
+    "ABUTMENT",
+    "PIER",
+    "PYLON",
+    "CROSS_BRACING",
+    "DECK",
+    "MAST",
+    "SIGNAL_ASSEMBLY",
+    "GRID",
+    "SHELTER",
+    "SUPPORTINGASSEMBLY",
+    "SUSPENSIONASSEMBLY",
+    "TRACTION_SWITCHING_ASSEMBLY",
+    "TRACKPANEL",
+    "TURNOUTPANEL",
+    "DILATATIONPANEL",
+    "RAIL_MECHANICAL_EQUIPMENT_ASSEMBLY",
+    "ENTRANCEWORKS",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {},
+   "hint": "сборка из нескольких элементов (например арматурный каркас, ферма); свойства — у входящих элементов"
+  },
+  "IfcFan": {
+   "predef": [
+    "CENTRIFUGALFORWARDCURVED",
+    "CENTRIFUGALRADIAL",
+    "CENTRIFUGALBACKWARDINCLINEDCURVED",
+    "CENTRIFUGALAIRFOIL",
+    "TUBEAXIAL",
+    "VANEAXIAL",
+    "PROPELLORAXIAL",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_FanTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "OperationalCriteria",
+      "PEnum_FanOperationalCriteria"
+     ],
+     [
+      "OperationTemperatureMaximum",
+      "IfcThermodynamicTemperatureMeasure"
+     ],
+     [
+      "MotorDriveType",
+      "PEnum_FanMotorConnectionType"
+     ],
+     [
+      "CoolingType",
+      "IfcLabel"
+     ]
+    ]
+   }
+  },
+  "IfcFilter": {
+   "predef": [
+    "AIRPARTICLEFILTER",
+    "COMPRESSEDAIRFILTER",
+    "ODORFILTER",
+    "OILFILTER",
+    "STRAINER",
+    "WATERFILTER",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_FilterTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NominalPressureDrop",
+      "IfcPressureMeasure"
+     ],
+     [
+      "FilterMechanicalEfficiency",
+      "IfcNormalisedRatioMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcFireSuppressionTerminal": {
+   "predef": [
+    "BREECHINGINLET",
+    "FIREHYDRANT",
+    "HOSEREEL",
+    "SPRINKLER",
+    "SPRINKLERDEFLECTOR",
+    "FIREMONITOR",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_FireSuppressionTerminalTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NominalSupplyPressureRange",
+      "IfcPressureMeasure"
+     ],
+     [
+      "CoverageArea",
+      "IfcAreaMeasure"
+     ],
+     [
+      "ReleaseSprinkler",
+      "IfcLabel"
+     ],
+     [
+      "SprinklerType",
+      "IfcLabel"
+     ]
+    ]
+   }
+  },
+  "IfcFlowInstrument": {
+   "predef": [
+    "PRESSUREGAUGE",
+    "THERMOMETER",
+    "AMMETER",
+    "FREQUENCYMETER",
+    "POWERFACTORMETER",
+    "PHASEANGLEMETER",
+    "VOLTMETER_PEAK",
+    "VOLTMETER_RMS",
+    "COMBINED",
+    "VOLTMETER",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_FlowInstrumentTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "RangeMin",
+      "IfcReal"
+     ],
+     [
+      "RangeMax",
+      "IfcReal"
+     ]
+    ]
+   }
+  },
+  "IfcFlowMeter": {
+   "predef": [
+    "ENERGYMETER",
+    "GASMETER",
+    "OILMETER",
+    "WATERMETER",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_FlowMeterTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "ReadOutType",
+      "PEnum_FlowMeterReadOutType"
+     ],
+     [
+      "NominalDiameter",
+      "IfcPositiveLengthMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcFooting": {
+   "predef": [
+    "CAISSON_FOUNDATION",
+    "FOOTING_BEAM",
+    "PAD_FOOTING",
+    "PILE_CAP",
+    "STRIP_FOOTING",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_FootingCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "LoadBearing",
+      "IfcBoolean"
+     ],
+     [
+      "ThermalTransmittance",
+      "IfcThermalTransmittanceMeasure"
+     ]
+    ]
+   },
+   "qto": "Qto_FootingBaseQuantities: Length, Width, Height, GrossVolume, NetVolume, GrossWeight, NetWeight"
+  },
+  "IfcFurniture": {
+   "predef": [
+    "CHAIR",
+    "TABLE",
+    "DESK",
+    "BED",
+    "FILECABINET",
+    "SHELF",
+    "SOFA",
+    "TECHNICALCABINET",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_FurnitureTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NominalHeight",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalWidth",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalLength",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalDepth",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "Finish",
+      "IfcLabel"
+     ],
+     [
+      "Colour",
+      "IfcLabel"
+     ]
+    ]
+   }
+  },
+  "IfcGeographicElement": {
+   "predef": [
+    "TERRAIN",
+    "SOIL_BORING_POINT",
+    "VEGETATION",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_GeographicElementCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ]
+    ]
+   },
+   "hint": "элементы окружения (рельеф, озеленение); собственных инженерных свойств почти нет"
+  },
+  "IfcHeatExchanger": {
+   "predef": [
+    "PLATE",
+    "SHELLANDTUBE",
+    "TURNOUTHEATING",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_HeatExchangerTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "ArrangementType",
+      "IfcLabel"
+     ],
+     [
+      "ExpectedFoulingFactor",
+      "IfcReal"
+     ],
+     [
+      "FluidType",
+      "IfcLabel"
+     ]
+    ]
+   }
+  },
+  "IfcJunctionBox": {
+   "predef": [
+    "DATA",
+    "POWER",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_JunctionBoxTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NumberOfGangs",
+      "IfcInteger"
+     ],
+     [
+      "ShapeType",
+      "IfcLabel"
+     ],
+     [
+      "IP_Rating",
+      "IfcLabel"
+     ]
+    ]
+   }
+  },
+  "IfcLamp": {
+   "predef": [
+    "COMPACTFLUORESCENT",
+    "FLUORESCENT",
+    "HALOGEN",
+    "HIGHPRESSUREMERCURY",
+    "HIGHPRESSURESODIUM",
+    "LED",
+    "METALHALIDE",
+    "OLED",
+    "TUNGSTENFILAMENT",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_LampTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "ColourAppearance",
+      "IfcLabel"
+     ],
+     [
+      "LampMaintenanceFactor",
+      "IfcReal"
+     ],
+     [
+      "LampWattage",
+      "IfcPowerMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcLightFixture": {
+   "predef": [
+    "POINTSOURCE",
+    "DIRECTIONSOURCE",
+    "SECURITYLIGHTING",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_LightFixtureTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NumberOfSources",
+      "IfcInteger"
+     ],
+     [
+      "TotalWattage",
+      "IfcPowerMeasure"
+     ],
+     [
+      "LightFixtureMountingType",
+      "PEnum_LightFixtureMountingType"
+     ],
+     [
+      "LightFixturePlacingType",
+      "PEnum_LightFixturePlacingType"
+     ],
+     [
+      "MaintenanceFactor",
+      "IfcReal"
+     ]
+    ]
+   }
+  },
+  "IfcMechanicalFastener": {
+   "predef": [
+    "ANCHORBOLT",
+    "BOLT",
+    "DOWEL",
+    "NAIL",
+    "NAILPLATE",
+    "RIVET",
+    "SCREW",
+    "SHEARCONNECTOR",
+    "STAPLE",
+    "STUDSHEARCONNECTOR",
+    "COUPLER",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_MechanicalFastenerCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NominalDiameter",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalLength",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "Strength",
+      "IfcLabel"
+     ]
+    ]
+   }
+  },
+  "IfcMember": {
+   "predef": [
+    "BRACE",
+    "CHORD",
+    "COLLAR",
+    "MEMBER",
+    "MULLION",
+    "PLATE",
+    "POST",
+    "PURLIN",
+    "RAFTER",
+    "STRINGER",
+    "STRUT",
+    "STUD",
+    "STIFFENING_RIB",
+    "ARCH_SEGMENT",
+    "UNITARY_MEMBER",
+    "STAY_CABLE",
+    "STRUCTURAL_CABLE",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_MemberCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "Slope",
+      "IfcPlaneAngleMeasure"
+     ],
+     [
+      "Roll",
+      "IfcPlaneAngleMeasure"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ],
+     [
+      "ThermalTransmittance",
+      "IfcThermalTransmittanceMeasure"
+     ],
+     [
+      "LoadBearing",
+      "IfcBoolean"
+     ],
+     [
+      "FireRating",
+      "IfcLabel"
+     ],
+     [
+      "Span",
+      "IfcPositiveLengthMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcOpeningElement": {
+   "predef": [
+    "OPENING",
+    "RECESS",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_OpeningElementCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "FireRating",
+      "IfcLabel"
+     ],
+     [
+      "AcousticRating",
+      "IfcLabel"
+     ],
+     [
+      "Purpose",
+      "IfcLabel"
+     ],
+     [
+      "ThermalTransmittance",
+      "IfcThermalTransmittanceMeasure"
+     ]
+    ]
+   },
+   "qto": "Qto_OpeningElementBaseQuantities: Width, Height, Depth, Area, Volume"
+  },
+  "IfcOutlet": {
+   "predef": [
+    "AUDIOVISUALOUTLET",
+    "COMMUNICATIONSOUTLET",
+    "POWEROUTLET",
+    "DATAOUTLET",
+    "TELEPHONEOUTLET",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_OutletTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NumberOfSockets",
+      "IfcInteger"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ]
+    ]
+   }
+  },
+  "IfcPile": {
+   "predef": [
+    "BORED",
+    "DRIVEN",
+    "JETGROUTING",
+    "COHESION",
+    "FRICTION",
+    "SUPPORT",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_PileCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "LoadBearing",
+      "IfcBoolean"
+     ],
+     [
+      "PileHeadElevation",
+      "IfcLengthMeasure"
+     ],
+     [
+      "PileToeElevation",
+      "IfcLengthMeasure"
+     ]
+    ]
+   },
+   "qto": "Qto_PileBaseQuantities: Length, CrossSectionArea, OuterSurfaceArea, GrossSurfaceArea, GrossVolume, NetVolume, GrossWeight, NetWeight"
+  },
+  "IfcPipeFitting": {
+   "predef": [
+    "BEND",
+    "CONNECTOR",
+    "ENTRY",
+    "EXIT",
+    "JUNCTION",
+    "OBSTRUCTION",
+    "TRANSITION",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_PipeFittingTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NominalDiameter",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "PressureClass",
+      "IfcPressureMeasure"
+     ],
+     [
+      "FittingLossFactor",
+      "IfcReal"
+     ]
+    ]
+   }
+  },
+  "IfcPipeSegment": {
+   "predef": [
+    "CULVERT",
+    "FLEXIBLESEGMENT",
+    "RIGIDSEGMENT",
+    "GUTTER",
+    "SPOOL",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_PipeSegmentTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NominalDiameter",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "InnerDiameter",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "OuterDiameter",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "PressureClass",
+      "IfcPressureMeasure"
+     ],
+     [
+      "Roughness",
+      "IfcReal"
+     ]
+    ]
+   }
+  },
+  "IfcPlate": {
+   "predef": [
+    "CURTAIN_PANEL",
+    "SHEET",
+    "FLANGE_PLATE",
+    "WEB_PLATE",
+    "STIFFENER_PLATE",
+    "GUSSET_PLATE",
+    "COVER_PLATE",
+    "BASE_PLATE",
+    "SPLICE_PLATE",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_PlateCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "AcousticRating",
+      "IfcLabel"
+     ],
+     [
+      "FireRating",
+      "IfcLabel"
+     ],
+     [
+      "Combustible",
+      "IfcBoolean"
+     ],
+     [
+      "SurfaceSpreadOfFlame",
+      "IfcLabel"
+     ],
+     [
+      "ThermalTransmittance",
+      "IfcThermalTransmittanceMeasure"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ],
+     [
+      "LoadBearing",
+      "IfcBoolean"
+     ]
+    ]
+   }
+  },
+  "IfcProtectiveDevice": {
+   "predef": [
+    "CIRCUITBREAKER",
+    "EARTHLEAKAGECIRCUITBREAKER",
+    "EARTHINGSWITCH",
+    "FUSEDISCONNECTOR",
+    "RESIDUALCURRENTCIRCUITBREAKER",
+    "RESIDUALCURRENTSWITCH",
+    "VARISTOR",
+    "ANTILOCKINGDEVICE",
+    "SPARKGAP",
+    "OVERCURRENTPROTECTIONDEVICE",
+    "VOLTAGELIMITER",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_ProtectiveDeviceTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "RatedCurrent",
+      "IfcElectricCurrentMeasure"
+     ],
+     [
+      "RatedVoltage",
+      "IfcElectricVoltageMeasure"
+     ],
+     [
+      "BreakingCapacity",
+      "IfcElectricCurrentMeasure"
+     ],
+     [
+      "NumberOfPoles",
+      "IfcInteger"
+     ]
+    ]
+   }
+  },
+  "IfcPump": {
+   "predef": [
+    "CIRCULATOR",
+    "ENDSUCTION",
+    "SPLITCASE",
+    "SUBMERSIBLEPUMP",
+    "SUMPPUMP",
+    "VERTICALINLINE",
+    "VERTICALTURBINE",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_PumpTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "FlowRateRange",
+      "IfcVolumetricFlowRateMeasure"
+     ],
+     [
+      "FlowResistanceRange",
+      "IfcPressureMeasure"
+     ],
+     [
+      "ConnectionSize",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NetPositiveSuctionHead",
+      "IfcPressureMeasure"
+     ],
+     [
+      "NominalRotationSpeed",
+      "IfcRotationalFrequencyMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcRail": {
+   "predef": [
+    "RACKRAIL",
+    "BLADE",
+    "GUARDRAIL",
+    "STOCKRAIL",
+    "CHECKRAIL",
+    "RAIL",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {},
+   "hint": "рельс (IFC4.3, ж/д); профиль и материал — в атрибутах/материале сущности"
+  },
+  "IfcRailing": {
+   "predef": [
+    "HANDRAIL",
+    "GUARDRAIL",
+    "BALUSTRADE",
+    "FENCE",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_RailingCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "Height",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "Diameter",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ]
+    ]
+   }
+  },
+  "IfcRamp": {
+   "predef": [
+    "STRAIGHT_RUN_RAMP",
+    "TWO_STRAIGHT_RUN_RAMP",
+    "QUARTER_TURN_RAMP",
+    "TWO_QUARTER_TURN_RAMP",
+    "HALF_TURN_RAMP",
+    "SPIRAL_RAMP",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_RampCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "RequiredSlope",
+      "IfcPlaneAngleMeasure"
+     ],
+     [
+      "RequiredHeadroom",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "FireRating",
+      "IfcLabel"
+     ],
+     [
+      "FireExit",
+      "IfcBoolean"
+     ],
+     [
+      "HandicapAccessible",
+      "IfcBoolean"
+     ],
+     [
+      "HasNonSkidSurface",
+      "IfcBoolean"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ],
+     [
+      "LoadBearing",
+      "IfcBoolean"
+     ]
+    ]
+   }
+  },
+  "IfcRampFlight": {
+   "predef": [
+    "STRAIGHT",
+    "SPIRAL",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_RampFlightCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "Headroom",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "Slope",
+      "IfcPlaneAngleMeasure"
+     ],
+     [
+      "ClearWidth",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "CounterSlope",
+      "IfcBoolean"
+     ]
+    ]
+   }
+  },
+  "IfcReinforcedSoil": {
+   "predef": [
+    "DYNAMICALLYCOMPACTED",
+    "GROUTED",
+    "REPLACEDANDCOMPACTED",
+    "ROLLERCOMPACTED",
+    "SURCHARGEPRELOADED",
+    "VERTICALLYDRAINED",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {},
+   "hint": "укреплённый грунт основания (IFC4.3); параметры — способ укрепления, характеристики грунта"
+  },
+  "IfcReinforcingBar": {
+   "predef": [
+    "ANCHORING",
+    "EDGE",
+    "LIGATURE",
+    "MAIN",
+    "PUNCHING",
+    "RING",
+    "SHEAR",
+    "STUD",
+    "SPACEBAR",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_ReinforcingBarBendingsBECCommon": [
+     [
+      "NumberOfBar",
+      "IfcInteger"
+     ],
+     [
+      "BarLength",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "BendingShapeCode",
+      "IfcLabel"
+     ]
+    ]
+   },
+   "qto": "Qto_ReinforcingElementBaseQuantities: Count, Length, Weight, TotalSurfaceArea"
+  },
+  "IfcReinforcingMesh": {
+   "predef": [
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {},
+   "qto": "Qto_ReinforcingElementBaseQuantities: Count, Length, Weight",
+   "hint": "атрибуты сетки заданы прямо в сущности: MeshLength, MeshWidth, шаги и диаметры продольных/поперечных прутов"
+  },
+  "IfcRoadPart": {
+   "predef": [
+    "ROADSEGMENT",
+    "ROADSIDEPART",
+    "BICYCLECROSSING",
+    "BUS_STOP",
+    "CENTRALISLAND",
+    "CENTRALRESERVE",
+    "HARDSHOULDER",
+    "INTERSECTION",
+    "LAYBY",
+    "PARKINGBAY",
+    "PASSINGBAY",
+    "PEDESTRIAN_CROSSING",
+    "RAILWAYCROSSING",
+    "REFUGEISLAND",
+    "ROADSIDE",
+    "ROADWAYPLATEAU",
+    "ROUNDABOUT",
+    "SHOULDER",
+    "SIDEWALK",
+    "SOFTSHOULDER",
+    "TServiceArea",
+    "TollPlaza",
+    "TRAFFICISLAND",
+    "TRAFFICLANE",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {},
+   "hint": "функциональная часть автодороги (IFC4.3, инфраструктура); это пространственный элемент, а не физический"
+  },
+  "IfcSanitaryTerminal": {
+   "predef": [
+    "BATH",
+    "BIDET",
+    "CISTERN",
+    "SHOWER",
+    "SINK",
+    "SANITARYFOUNTAIN",
+    "TOILETPAN",
+    "URINAL",
+    "WASHHANDBASIN",
+    "WCSEAT",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_SanitaryTerminalTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NominalDepth",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalWidth",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalHeight",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "Colour",
+      "IfcLabel"
+     ],
+     [
+      "DrainSize",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "HasIntegratedWasteTrap",
+      "IfcBoolean"
+     ]
+    ]
+   }
+  },
+  "IfcSensor": {
+   "predef": [
+    "CO2SENSOR",
+    "COSENSOR",
+    "CONDUCTANCESENSOR",
+    "CONTACTSENSOR",
+    "FIRESENSOR",
+    "FLOWSENSOR",
+    "FROSTSENSOR",
+    "GASSENSOR",
+    "HEATSENSOR",
+    "HUMIDITYSENSOR",
+    "IONCONCENTRATIONSENSOR",
+    "LEVELSENSOR",
+    "LIGHTSENSOR",
+    "MOISTURESENSOR",
+    "MOVEMENTSENSOR",
+    "PHSENSOR",
+    "PRESSURESENSOR",
+    "RADIATIONSENSOR",
+    "RADIOACTIVITYSENSOR",
+    "SMOKESENSOR",
+    "SOUNDSENSOR",
+    "TEMPERATURESENSOR",
+    "WINDSENSOR",
+    "EARTHQUAKESENSOR",
+    "FOREIGNOBJECTDETECTIONSENSOR",
+    "OBSTACLESENSOR",
+    "RAINSENSOR",
+    "SNOWDEPTHSENSOR",
+    "TRAINSENSOR",
+    "TURNOUTCLOSURESENSOR",
+    "WHEELSENSOR",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_SensorTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ]
+    ]
+   }
+  },
+  "IfcShadingDevice": {
+   "predef": [
+    "JALOUSIE",
+    "SHUTTER",
+    "AWNING",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_ShadingDeviceCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ],
+     [
+      "MechanicalOperated",
+      "IfcBoolean"
+     ],
+     [
+      "SolarTransmittance",
+      "IfcPositiveRatioMeasure"
+     ],
+     [
+      "SolarReflectance",
+      "IfcPositiveRatioMeasure"
+     ],
+     [
+      "ThermalTransmittance",
+      "IfcThermalTransmittanceMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcSlab": {
+   "predef": [
+    "FLOOR",
+    "ROOF",
+    "LANDING",
+    "BASESLAB",
+    "APPROACH_SLAB",
+    "PAVING",
+    "WEARING",
+    "SIDEWALK",
+    "TRACKSLAB",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_SlabCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "AcousticRating",
+      "IfcLabel"
+     ],
+     [
+      "FireRating",
+      "IfcLabel"
+     ],
+     [
+      "Combustible",
+      "IfcBoolean"
+     ],
+     [
+      "SurfaceSpreadOfFlame",
+      "IfcLabel"
+     ],
+     [
+      "ThermalTransmittance",
+      "IfcThermalTransmittanceMeasure"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ],
+     [
+      "LoadBearing",
+      "IfcBoolean"
+     ],
+     [
+      "Compartmentation",
+      "IfcBoolean"
+     ],
+     [
+      "PitchAngle",
+      "IfcPlaneAngleMeasure"
+     ]
+    ]
+   },
+   "qto": "Qto_SlabBaseQuantities: Width, Length, Depth, Perimeter, GrossArea, NetArea, GrossVolume, NetVolume, GrossWeight, NetWeight"
+  },
+  "IfcSolarDevice": {
+   "predef": [
+    "SOLARCOLLECTOR",
+    "SOLARPANEL",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_SolarDeviceTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "SolarEnergyDeviceEfficiency",
+      "IfcNormalisedRatioMeasure"
+     ],
+     [
+      "Area",
+      "IfcAreaMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcSpaceHeater": {
+   "predef": [
+    "CONVECTOR",
+    "RADIATOR",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_SpaceHeaterTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NumberOfPanels",
+      "IfcInteger"
+     ],
+     [
+      "NumberOfSections",
+      "IfcInteger"
+     ],
+     [
+      "ThermalConductivity",
+      "IfcThermalConductivityMeasure"
+     ],
+     [
+      "OutputCapacity",
+      "IfcPowerMeasure"
+     ],
+     [
+      "TemperatureClassification",
+      "PEnum_SpaceHeaterTemperatureClassification"
+     ],
+     [
+      "HeatTransferDimension",
+      "PEnum_SpaceHeaterHeatTransferDimension"
+     ],
+     [
+      "HeatTransferMedium",
+      "PEnum_SpaceHeaterHeatTransferMedium"
+     ]
+    ]
+   }
+  },
+  "IfcStackTerminal": {
+   "predef": [
+    "BIRDCAGE",
+    "COWL",
+    "RAINWATERHOPPER",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_StackTerminalTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "HasScreen",
+      "IfcBoolean"
+     ]
+    ]
+   }
+  },
+  "IfcStair": {
+   "predef": [
+    "STRAIGHT_RUN_STAIR",
+    "TWO_STRAIGHT_RUN_STAIR",
+    "QUARTER_WINDING_STAIR",
+    "QUARTER_TURN_STAIR",
+    "HALF_WINDING_STAIR",
+    "HALF_TURN_STAIR",
+    "TWO_QUARTER_WINDING_STAIR",
+    "TWO_QUARTER_TURN_STAIR",
+    "THREE_QUARTER_WINDING_STAIR",
+    "THREE_QUARTER_TURN_STAIR",
+    "SPIRAL_STAIR",
+    "DOUBLE_RETURN_STAIR",
+    "CURVED_RUN_STAIR",
+    "TWO_CURVED_RUN_STAIR",
+    "LADDER",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_StairCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NumberOfRiser",
+      "IfcInteger"
+     ],
+     [
+      "NumberOfTreads",
+      "IfcInteger"
+     ],
+     [
+      "RiserHeight",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "TreadLength",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NosingLength",
+      "IfcLengthMeasure"
+     ],
+     [
+      "WalkingLineOffset",
+      "IfcLengthMeasure"
+     ],
+     [
+      "TreadLengthAtOffset",
+      "IfcLengthMeasure"
+     ],
+     [
+      "TreadLengthAtInnerSide",
+      "IfcLengthMeasure"
+     ],
+     [
+      "WaistThickness",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "FireRating",
+      "IfcLabel"
+     ],
+     [
+      "FireExit",
+      "IfcBoolean"
+     ],
+     [
+      "HandicapAccessible",
+      "IfcBoolean"
+     ],
+     [
+      "HasNonSkidSurface",
+      "IfcBoolean"
+     ],
+     [
+      "RequiredHeadroom",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ],
+     [
+      "LoadBearing",
+      "IfcBoolean"
+     ]
+    ]
+   }
+  },
+  "IfcStairFlight": {
+   "predef": [
+    "STRAIGHT",
+    "WINDER",
+    "SPIRAL",
+    "CURVED",
+    "FREEFORM",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_StairFlightCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NumberOfRiser",
+      "IfcInteger"
+     ],
+     [
+      "NumberOfTreads",
+      "IfcInteger"
+     ],
+     [
+      "RiserHeight",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "TreadLength",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NosingLength",
+      "IfcLengthMeasure"
+     ],
+     [
+      "WaistThickness",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "Headroom",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "WalkingLineOffset",
+      "IfcLengthMeasure"
+     ],
+     [
+      "PitchAngle",
+      "IfcPlaneAngleMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcSwitchingDevice": {
+   "predef": [
+    "CONTACTOR",
+    "DIMMERSWITCH",
+    "EMERGENCYSTOP",
+    "KEYPAD",
+    "MOMENTARYSWITCH",
+    "SELECTORSWITCH",
+    "STARTER",
+    "SWITCHDISCONNECTOR",
+    "TOGGLESWITCH",
+    "RELAY",
+    "START_AND_STOP_EQUIPMENT",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_SwitchingDeviceTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NumberOfGangs",
+      "IfcInteger"
+     ],
+     [
+      "SwitchFunction",
+      "PEnum_SwitchFunctionType"
+     ],
+     [
+      "HasLock",
+      "IfcBoolean"
+     ],
+     [
+      "IsIlluminated",
+      "IfcBoolean"
+     ]
+    ]
+   }
+  },
+  "IfcTank": {
+   "predef": [
+    "BASIN",
+    "BREAKPRESSURE",
+    "EXPANSION",
+    "FEEDANDEXPANSION",
+    "PRESSUREVESSEL",
+    "STORAGE",
+    "VESSEL",
+    "OILRETENTIONTRAY",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_TankTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "AccessType",
+      "PEnum_TankAccessType"
+     ],
+     [
+      "StorageType",
+      "PEnum_TankStorageType"
+     ],
+     [
+      "PatternType",
+      "PEnum_TankPatternType"
+     ],
+     [
+      "NominalCapacity",
+      "IfcVolumeMeasure"
+     ],
+     [
+      "EffectiveCapacity",
+      "IfcVolumeMeasure"
+     ],
+     [
+      "NominalLengthOrDiameter",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalDepth",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "NominalWidth",
+      "IfcPositiveLengthMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcTendon": {
+   "predef": [
+    "BAR",
+    "COATED",
+    "STRAND",
+    "WIRE",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {},
+   "hint": "напрягаемый элемент; параметры (усилие, потери, площадь сечения) — в атрибутах сущности"
+  },
+  "IfcTendonAnchor": {
+   "predef": [
+    "COUPLER",
+    "FIXED_END",
+    "TENSIONING_END",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {}
+  },
+  "IfcTrackElement": {
+   "predef": [
+    "TRACK_END_OF_ALIGNMENT",
+    "BLOCKING_DEVICE",
+    "VEHICLE_STOP",
+    "HALF_SET_OF_BLADES",
+    "DERAILER",
+    "FROG",
+    "SPEED_REGULATOR",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {},
+   "hint": "элемент верхнего строения пути (IFC4.3, ж/д)"
+  },
+  "IfcTransformer": {
+   "predef": [
+    "CURRENT",
+    "FREQUENCY",
+    "INVERTER",
+    "RECTIFIER",
+    "VOLTAGE",
+    "CHOPPER",
+    "COMBINED",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_TransformerTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "PrimaryVoltage",
+      "IfcElectricVoltageMeasure"
+     ],
+     [
+      "SecondaryVoltage",
+      "IfcElectricVoltageMeasure"
+     ],
+     [
+      "RatedPowerOutput",
+      "IfcPowerMeasure"
+     ],
+     [
+      "Frequency",
+      "IfcFrequencyMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcTransportElement": {
+   "predef": [
+    "ELEVATOR",
+    "ESCALATOR",
+    "MOVINGWALKWAY",
+    "CRANEWAY",
+    "LIFTINGGEAR",
+    "HAULINGGEAR",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_TransportElementCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "CapacityPeople",
+      "IfcCountMeasure"
+     ],
+     [
+      "CapacityWeight",
+      "IfcMassMeasure"
+     ],
+     [
+      "FireExit",
+      "IfcBoolean"
+     ]
+    ],
+    "Pset_TransportElementElevatorTypeCommon": [
+     [
+      "RatedSpeed",
+      "IfcLinearVelocityMeasure"
+     ],
+     [
+      "RatedLoad",
+      "IfcMassMeasure"
+     ],
+     [
+      "ElevatorType",
+      "IfcLabel"
+     ],
+     [
+      "NumberOfStops",
+      "IfcInteger"
+     ],
+     [
+      "TravelHeight",
+      "IfcLengthMeasure"
+     ]
+    ]
+   }
+  },
+  "IfcUnitaryEquipment": {
+   "predef": [
+    "AIRHANDLER",
+    "AIRCONDITIONINGUNIT",
+    "DEHUMIDIFIER",
+    "SPLITSYSTEM",
+    "ROOFTOPUNIT",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_UnitaryEquipmentTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ]
+    ]
+   }
+  },
+  "IfcValve": {
+   "predef": [
+    "AIRRELEASE",
+    "ANTIVACUUM",
+    "CHANGEOVER",
+    "CHECK",
+    "COMMISSIONING",
+    "DIVERTING",
+    "DRAWOFFCOCK",
+    "DOUBLECHECK",
+    "DOUBLEREGULATING",
+    "FAUCET",
+    "FLUSHING",
+    "GASCOCK",
+    "GASTAP",
+    "ISOLATING",
+    "MIXING",
+    "PRESSUREREDUCING",
+    "PRESSURERELIEF",
+    "REGULATING",
+    "SAFETYCUTOFF",
+    "STEAMTRAP",
+    "STOPCOCK",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_ValveTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "Size",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "PressureRating",
+      "IfcPressureMeasure"
+     ],
+     [
+      "ValveOperation",
+      "PEnum_ValveOperation"
+     ],
+     [
+      "ValveMechanism",
+      "PEnum_ValveMechanism"
+     ],
+     [
+      "FlowCoefficient",
+      "IfcReal"
+     ],
+     [
+      "CloseOnLossOfSignal",
+      "IfcBoolean"
+     ]
+    ]
+   }
+  },
+  "IfcVibrationIsolator": {
+   "predef": [
+    "COMPRESSION",
+    "SPRING",
+    "BASE",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_VibrationIsolatorTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "VibrationTransmissibility",
+      "IfcPositiveRatioMeasure"
+     ],
+     [
+      "IsolatorStaticDeflection",
+      "IfcLengthMeasure"
+     ],
+     [
+      "ComplianceHorizontal",
+      "IfcLabel"
+     ]
+    ]
+   }
+  },
+  "IfcVoidingFeature": {
+   "predef": [
+    "CUTOUT",
+    "NOTCH",
+    "HOLE",
+    "MITER",
+    "CHAMFER",
+    "EDGE",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {},
+   "hint": "вырез/паз в элементе; геометрический подтип, отдельного Pset обычно нет"
+  },
+  "IfcWall": {
+   "predef": [
+    "MOVABLE",
+    "PARAPET",
+    "PARTITIONING",
+    "PLUMBINGWALL",
+    "SHEAR",
+    "SOLIDWALL",
+    "STANDARD",
+    "POLYGONAL",
+    "ELEMENTEDWALL",
+    "RETAININGWALL",
+    "WAVEWALL",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_WallCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "AcousticRating",
+      "IfcLabel"
+     ],
+     [
+      "FireRating",
+      "IfcLabel"
+     ],
+     [
+      "Combustible",
+      "IfcBoolean"
+     ],
+     [
+      "SurfaceSpreadOfFlame",
+      "IfcLabel"
+     ],
+     [
+      "ThermalTransmittance",
+      "IfcThermalTransmittanceMeasure"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ],
+     [
+      "LoadBearing",
+      "IfcBoolean"
+     ],
+     [
+      "ExtendToStructure",
+      "IfcBoolean"
+     ],
+     [
+      "Compartmentation",
+      "IfcBoolean"
+     ]
+    ]
+   },
+   "qto": "Qto_WallBaseQuantities: Length, Width, Height, GrossFootprintArea, NetFootprintArea, GrossSideArea, NetSideArea, GrossVolume, NetVolume"
+  },
+  "IfcWasteTerminal": {
+   "predef": [
+    "FLOORTRAP",
+    "FLOORWASTE",
+    "GULLYSUMP",
+    "GULLYTRAP",
+    "ROOFDRAIN",
+    "WASTEDISPOSALUNIT",
+    "WASTETRAP",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_WasteTerminalTypeCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "NominalBofDiameter",
+      "IfcPositiveLengthMeasure"
+     ],
+     [
+      "HasStrainer",
+      "IfcBoolean"
+     ],
+     [
+      "TrapType",
+      "PEnum_TrapType"
+     ]
+    ]
+   }
+  },
+  "IfcWindow": {
+   "predef": [
+    "WINDOW",
+    "SKYLIGHT",
+    "LIGHTDOME",
+    "USERDEFINED",
+    "NOTDEFINED"
+   ],
+   "psets": {
+    "Pset_WindowCommon": [
+     [
+      "Reference",
+      "IfcIdentifier"
+     ],
+     [
+      "Status",
+      "PEnum_ElementStatus"
+     ],
+     [
+      "FireRating",
+      "IfcLabel"
+     ],
+     [
+      "AcousticRating",
+      "IfcLabel"
+     ],
+     [
+      "SecurityRating",
+      "IfcLabel"
+     ],
+     [
+      "IsExternal",
+      "IfcBoolean"
+     ],
+     [
+      "Infiltration",
+      "IfcVolumetricFlowRateMeasure"
+     ],
+     [
+      "ThermalTransmittance",
+      "IfcThermalTransmittanceMeasure"
+     ],
+     [
+      "GlazingAreaFraction",
+      "IfcPositiveRatioMeasure"
+     ],
+     [
+      "HandicapAccessible",
+      "IfcBoolean"
+     ],
+     [
+      "FireExit",
+      "IfcBoolean"
+     ],
+     [
+      "SmokeStop",
+      "IfcBoolean"
+     ],
+     [
+      "WaterTightnessRating",
+      "IfcLabel"
+     ]
+    ]
+   },
+   "qto": "Qto_WindowBaseQuantities: Width, Height, Perimeter, Area"
+  }
+ }
 }

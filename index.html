@@ -101,6 +101,21 @@
   #detail .x{position:absolute;top:12px;right:14px;cursor:pointer;color:var(--muted);font-size:18px;line-height:1}
   .tag{display:inline-block;background:var(--chipbg);border:1px solid var(--chipbd);color:var(--chipink);border-radius:5px;padding:1px 6px;font-size:11px}
 
+  #ifcbox{margin:14px 0 4px;border-top:1px solid var(--line);padding-top:12px}
+  #ifcbox .sec{color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-size:10px;margin-bottom:6px}
+  #ifcbox .ent{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;font-weight:700}
+  #ifcbox .chain{font-size:10.5px;color:var(--muted);margin:3px 0 10px;line-height:1.5}
+  #ifcbox .chain code{font-size:10px;background:var(--bg);padding:0 3px;border-radius:3px}
+  #ifcbox .sub{font-weight:600;font-size:12px;margin:10px 0 4px;font-family:ui-monospace,Menlo,Consolas,monospace}
+  #ifcbox .predef{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:4px}
+  #ifcbox .predef .tag{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10px}
+  #ifcbox .predef.plain{display:block;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:10.5px;color:var(--chipink);line-height:1.6}
+  #ifcbox .props{display:grid;grid-template-columns:1fr auto;gap:2px 10px;font-size:11.5px}
+  #ifcbox .props .pn{font-family:ui-monospace,Menlo,Consolas,monospace}
+  #ifcbox .props .pt{color:var(--muted);font-size:10.5px;text-align:right;white-space:nowrap}
+  #ifcbox .qto,#ifcbox .note{font-size:10.5px;color:var(--muted);margin-top:8px;line-height:1.5}
+  #ifcbox .none{font-size:11.5px;color:var(--muted)}
+
   .node circle{cursor:pointer}
   .node text{fill:var(--ink);paint-order:stroke;stroke:var(--bg);stroke-width:3px;stroke-linejoin:round}
   .link{fill:none;stroke:#8a94a6;stroke-opacity:.42;stroke-width:1.3px}
@@ -132,6 +147,12 @@
         <button data-c="ifc">по классу IFC</button>
       </div>
       <p class="hint" id="colorhint"></p>
+    </fieldset>
+    <fieldset>
+      <legend>Свойства IFC</legend>
+      <label class="row"><input type="checkbox" id="ifcPanel"><span>показывать в панели узла — сущность, <code>PredefinedType</code>, набор свойств <code>Pset</code></span></label>
+      <label class="row"><input type="checkbox" id="ifcOnly"><span>оставить в графе только коды с классом IFC</span></label>
+      <p class="hint" id="ifchint">Классы IFC проставлены в разделе 07 «Элементы» (754 кода). Показывает, чем описывается элемент в IFC-файле.</p>
     </fieldset>
     <fieldset>
       <legend>О проекте</legend>
@@ -185,12 +206,13 @@
     <button class="btn" id="detUp">на уровень выше</button>
   </div>
   <dl id="detDl"></dl>
+  <div id="ifcbox" hidden></div>
   <div class="path" id="detPath"></div>
   <p class="hint" id="detLink"></p>
 </div>
 
 <script src="vendor/d3.v7.min.js"></script>
-<script src="data.js?v=1"></script>
+<script src="data.js?v=2"></script>
 <script>
 (function(){
 "use strict";
@@ -234,9 +256,24 @@ function rootFor(clsId){
 const state = {
   view:"tree", cls:"07", focus:null,
   color:"depth", maxDepth:2, colorManual:false,
+  ifcPanel:false, ifcOnly:false,
   collapsed:new Set(), expanded:new Set(),
   selected:null, matches:new Set(), q:""
 };
+/* id узлов, у которых есть класс IFC в поддереве (для фильтра «только с IFC») */
+const IFC_KEEP = (()=>{
+  const kids = new Map();
+  ALL_NODES.forEach(n=>{ if(n.parent){ (kids.get(n.parent)||kids.set(n.parent,[]).get(n.parent)).push(n.id); } });
+  const keep = new Set();
+  const has = id=>{
+    const n = BY_ID.get(id); let ok = !!(n && n.ifc);
+    for(const c of (kids.get(id)||[])) if(has(c)) ok = true;
+    if(ok) keep.add(id);
+    return ok;
+  };
+  ALL_NODES.forEach(n=>{ if(n.parent===null) has(n.id); });
+  return keep;
+})();
 state.focus = rootFor(state.cls);
 /* автоцвет: «Все разделы» → по разделу, один раздел → по глубине (пока пользователь не выбрал сам) */
 function autoColor(){
@@ -253,6 +290,9 @@ function buildHierarchy(){
       .concat(ALL_NODES.map(n=> n.parent===null ? Object.assign({},n,{parent:"#ALL"}) : n));
   } else {
     subset = ALL_NODES.filter(n=> n.cls===state.cls);
+  }
+  if(state.ifcOnly){
+    subset = subset.filter(n=> n.parent===null || IFC_KEEP.has(n.id));
   }
   const root = d3.stratify().id(d=>d.id).parentId(d=>d.parent)(subset);
   root.eachAfter(d=>{
@@ -688,6 +728,7 @@ function showDetail(id){
     ["Всего в поддереве", subtreeCount(id)],
   ];
   rows.forEach(([k,v])=>{ dl.insertAdjacentHTML("beforeend",`<dt>${k}</dt><dd>${v}</dd>`); });
+  renderIfcBox(n);
   // путь
   const p = document.getElementById("detPath"); p.innerHTML="<b>Путь:</b><br>";
   let cur = n, chain=[];
@@ -709,6 +750,45 @@ function showDetail(id){
   } else lk.textContent="";
   document.getElementById("detFocus").onclick = ()=> setFocus(id);
   document.getElementById("detUp").onclick = ()=> { if(n.parent) setFocus(n.parent); };
+}
+function esc(s){ return String(s).replace(/[&<>]/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c])); }
+function renderIfcBox(n){
+  const box = document.getElementById("ifcbox");
+  if(!state.ifcPanel || !n.ifc){ box.hidden = true; box.innerHTML=""; return; }
+  box.hidden = false;
+  const ref = (DATA.ifc || {})[n.ifc];
+  let h = `<div class="sec">Сущность IFC</div><div class="ent">${esc(n.ifc)}</div>`;
+  h += `<div class="chain">В IFC-файле элемент — экземпляр <code>${esc(n.ifc)}</code>; `
+     + `свойства висят на нём через <code>IfcRelDefinesByProperties</code> → <code>IfcPropertySet</code> `
+     + `(набор <code>Pset_…</code>) → <code>IfcPropertySingleValue</code> (свойство + тип значения).</div>`;
+  if(!ref){
+    h += `<div class="none">Стандартный набор свойств для этого класса в справочнике не описан. `
+       + `Смотрите спецификацию buildingSMART IFC4.</div>`;
+    box.innerHTML = h; return;
+  }
+  if(ref.predef && ref.predef.length){
+    const plain = ref.predef.length > 14;
+    h += `<div class="sub">PredefinedType</div>`;
+    h += `<div class="predef${plain?" plain":""}">`
+       + ref.predef.map(v=> plain ? esc(v) : `<span class="tag">${esc(v)}</span>`).join(plain?" · ":"")
+       + `</div>`;
+  }
+  const psets = ref.psets || {};
+  const names = Object.keys(psets);
+  if(names.length){
+    names.forEach(pn=>{
+      h += `<div class="sub">${esc(pn)}</div><div class="props">`;
+      psets[pn].forEach(([prop, typ])=>{
+        h += `<div class="pn">${esc(prop)}</div><div class="pt">${esc(typ)}</div>`;
+      });
+      h += `</div>`;
+    });
+  } else {
+    h += `<div class="none">Отдельного <code>Pset_…Common</code> нет — параметры заданы прямо в атрибутах сущности.</div>`;
+  }
+  if(ref.qto) h += `<div class="qto"><b>Количества:</b> ${esc(ref.qto)}</div>`;
+  if(ref.hint) h += `<div class="note">${esc(ref.hint)}</div>`;
+  box.innerHTML = h;
 }
 function subtreeCount(id){
   let c=0; const stack=[id];
@@ -797,6 +877,19 @@ document.querySelectorAll("#colorseg button").forEach(b=>{
 });
 const depthEl = document.getElementById("depth"), depthVal = document.getElementById("depthval");
 depthEl.oninput = ()=>{ state.maxDepth = +depthEl.value; depthVal.textContent = depthEl.value; render(); };
+
+document.getElementById("ifcPanel").addEventListener("change", e=>{
+  state.ifcPanel = e.target.checked;
+  if(state.selected) showDetail(state.selected);   // перерисовать панель без перекомпоновки
+});
+document.getElementById("ifcOnly").addEventListener("change", e=>{
+  state.ifcOnly = e.target.checked;
+  state.collapsed.clear(); state.expanded.clear();
+  // фокус мог выпасть из отфильтрованного дерева — вернуться к корню раздела
+  const isRoot = String(state.focus).startsWith("#");
+  if(state.ifcOnly && !isRoot && !IFC_KEEP.has(state.focus)) state.focus = rootFor(state.cls);
+  render();
+});
 document.getElementById("expandAll").onclick = ()=>{
   state.collapsed.clear();
   CUR.root.each(d=> state.expanded.add(d.data.id));
