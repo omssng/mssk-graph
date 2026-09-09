@@ -199,7 +199,7 @@
 </div>
 
 <script src="vendor/d3.v7.min.js"></script>
-<script src="data.js?v=6"></script>
+<script src="data.js?v=7"></script>
 <script>
 (function(){
 "use strict";
@@ -385,8 +385,9 @@ function renderTree(root, focus, radial){
   node.append("circle")
     .attr("r", d=> d===focus?7 : (d.children||d._children)?5.5:4)
     .attr("fill", d=>nodeFill(d, CUR.maxD))
-    .attr("stroke", d=>(d._children?"var(--ink)":"var(--bg)"))
-    .attr("stroke-width", d=> d._children?2:1.2)
+    .attr("stroke", d=> d._children ? "var(--muted)" : "var(--bg)")
+    .attr("stroke-width", d=> d._children ? 1.3 : 1.2)
+    .attr("stroke-opacity", d=> d._children ? 0.8 : 1)
     .classed("match", d=>state.matches.has(d.data.id))
     .on("click",(ev,d)=>{ ev.stopPropagation(); toggle(d); })
     .on("dblclick",(ev,d)=>{ ev.stopPropagation(); setFocus(d.data.id); });
@@ -525,7 +526,9 @@ function renderForce(root, focus){
   node.append("circle")
     .attr("r",n=> n.d===focus?9 : (n.d.children||n.d._children)?6:4.5)
     .attr("fill",n=>nodeFill(n.d, CUR.maxD))
-    .attr("stroke",n=> n.d._children?"var(--ink)":"var(--bg)").attr("stroke-width",n=>n.d._children?2:1.2)
+    .attr("stroke",n=> n.d._children?"var(--muted)":"var(--bg)")
+    .attr("stroke-width",n=>n.d._children?1.3:1.2)
+    .attr("stroke-opacity",n=>n.d._children?0.8:1)
     .classed("match",n=>state.matches.has(n.id))
     .on("click",(ev,n)=>{ ev.stopPropagation(); toggle(n.d); })
     .on("dblclick",(ev,n)=>{ ev.stopPropagation(); setFocus(n.id); });
