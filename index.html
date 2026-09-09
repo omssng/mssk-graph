@@ -195,7 +195,7 @@
 </div>
 
 <script src="vendor/d3.v7.min.js"></script>
-<script src="data.js?v=8"></script>
+<script src="data.js?v=9"></script>
 <script>
 (function(){
 "use strict";
@@ -388,9 +388,14 @@ function renderTree(root, focus, radial){
     .on("click",(ev,d)=>{ ev.stopPropagation(); toggle(d); })
     .on("dblclick",(ev,d)=>{ ev.stopPropagation(); setFocus(d.data.id); });
 
-  const showText = d=> !dense || d===focus || d.children || d._children || (d.depth-focus.depth)<=1 || state.matches.has(d.data.id);
+  // подписываем все узлы; при очень больших раскрытиях — листья + корень + верхушка
+  const showText = d=>{
+    if(nodes.length <= 500) return true;
+    return !(d.children||d._children) || d===focus
+        || (d.depth-focus.depth)<=2 || state.matches.has(d.data.id);
+  };
   node.filter(showText).append("text")
-    .attr("dy", radial?"0.32em":"0.32em")
+    .attr("dy","0.32em")
     .attr("x", d=> radial ? 0 : ((d.children||d._children)? -9 : 9))
     .attr("text-anchor", d=>{
       if(!radial) return (d.children||d._children)?"end":"start";
@@ -398,10 +403,14 @@ function renderTree(root, focus, radial){
     })
     .attr("transform", radial ? d=>{ let deg=(d.x-Math.PI/2)*180/Math.PI; const flip=(deg>90&&deg<270);
       return `rotate(${deg}) translate(${flip?-11:11},0) ${flip?'rotate(180)':''}`; } : null)
-    .style("font-size", d=> d===focus?"13px":(dense?"9.5px":"11px"))
+    .style("font-size", d=> d===focus?"13px":(dense?"9px":"11px"))
     .style("font-weight", d=> d===focus?"700":"400")
-    .text(d=> radial ? label(d.data, 24)
-                     : treeLabel(d.data, dense?26:44, !!(d.children||d._children)))
+    .style("fill", d=> (!radial && !(d.children||d._children)) ? "var(--muted)" : "var(--ink)")
+    .text(d=>{
+      if(radial) return label(d.data, 24);
+      const endA = !!(d.children||d._children);
+      return treeLabel(d.data, dense ? (endA?20:23) : 44, endA);
+    })
     .on("click",(ev,d)=>{ ev.stopPropagation(); select(d.data.id); });
 
   svg.on("click", ()=> select(null));
