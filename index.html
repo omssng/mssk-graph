@@ -162,10 +162,6 @@
       <button data-v="force">Граф-сила</button>
       <button data-v="list">Список</button>
     </div>
-    <div class="pill">
-      <span>раздел</span>
-      <select id="clssel"></select>
-    </div>
     <div class="pill" id="depthpill">
       <span>глубина</span>
       <input type="range" id="depth" min="1" max="6" value="1" style="width:96px">
@@ -199,7 +195,7 @@
 </div>
 
 <script src="vendor/d3.v7.min.js"></script>
-<script src="data.js?v=7"></script>
+<script src="data.js?v=8"></script>
 <script>
 (function(){
 "use strict";
@@ -404,7 +400,8 @@ function renderTree(root, focus, radial){
       return `rotate(${deg}) translate(${flip?-11:11},0) ${flip?'rotate(180)':''}`; } : null)
     .style("font-size", d=> d===focus?"13px":(dense?"9.5px":"11px"))
     .style("font-weight", d=> d===focus?"700":"400")
-    .text(d=> label(d.data, radial?24:(dense?26:44)))
+    .text(d=> radial ? label(d.data, 24)
+                     : treeLabel(d.data, dense?26:44, !!(d.children||d._children)))
     .on("click",(ev,d)=>{ ev.stopPropagation(); select(d.data.id); });
 
   svg.on("click", ()=> select(null));
@@ -594,10 +591,17 @@ function plural(n, one, few, many){
   if(m10>=2 && m10<=4 && (m100<10||m100>=20)) return few;
   return many;
 }
+function trunc(s, n){ n = Math.max(4, n|0); return s.length>n ? s.slice(0,n-1)+"…" : s; }
 function label(nd, max){
-  const t = nd.code ? (nd.code + " · " + nd.name) : nd.name;
-  max = Math.max(4, max|0);
-  return t.length>max ? t.slice(0,max-1)+"…" : t;
+  return nd.code ? trunc(nd.code + " · " + nd.name, max) : trunc(nd.name, max);
+}
+/* подпись в дереве: у узлов с подписью слева (end-anchored) код ставим последним,
+   чтобы коды выстроились в колонку у самого узла; режем при этом имя, код целиком */
+function treeLabel(nd, max, endAnchored){
+  if(!nd.code) return trunc(nd.name, max);
+  if(!endAnchored) return trunc(nd.code + " · " + nd.name, max);
+  const budget = Math.max(6, (max|0) - nd.code.length - 3);
+  return trunc(nd.name, budget) + " · " + nd.code;
 }
 function toggle(d, fromList){
   const id = d.data.id;
@@ -635,7 +639,6 @@ function paintSelection(){
     .classed("issel", function(){ return this.getAttribute("data-id")===state.selected; });
 }
 function syncClsUI(){
-  document.getElementById("clssel").value = state.cls;
   document.querySelectorAll("#clslist .clsrow").forEach(r=>r.classList.toggle("on", r.dataset.id===state.cls));
 }
 
@@ -838,13 +841,6 @@ function pickClassifier(id){
   qEl.value=""; state.q=""; state.matches.clear(); resEl.innerHTML="";
   autoColor(); syncClsUI(); render();
 }
-
-/* ---------- селект раздела в топбаре ---------- */
-const clsSel = document.getElementById("clssel");
-clsSel.insertAdjacentHTML("beforeend", `<option value="ALL">Все разделы</option>`);
-DATA.classifiers.forEach(c=> clsSel.insertAdjacentHTML("beforeend", `<option value="${c.id}">${c.id}. ${c.title}</option>`));
-clsSel.value = state.cls;
-clsSel.onchange = ()=> pickClassifier(clsSel.value);
 
 /* ---------- переключатели ---------- */
 document.querySelectorAll("#viewseg button").forEach(b=>{
