@@ -1,0 +1,865 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Граф кодов МССК 5.0</title>
+<style>
+  :root{
+    --bg:#f4f5f7; --panel:#ffffff; --ink:#1d2330; --muted:#6b7280; --line:#dfe3ea;
+    --accent:#2f6fed; --shadow:0 1px 3px rgba(20,25,40,.12),0 6px 24px rgba(20,25,40,.08);
+    --nodefill:#5b6675; --nodeink:#ffffff; --hi:#ff8c1a;
+    --chipbg:#e7ebf3; --chipbd:#c2ccdd; --chipink:#3a465c;
+  }
+  @media (prefers-color-scheme:dark){
+    :root{ --bg:#12151c; --panel:#1a1f29; --ink:#e6e9ef; --muted:#9aa3b2; --line:#2b323f;
+      --accent:#5b8cff; --shadow:0 1px 3px rgba(0,0,0,.5),0 8px 30px rgba(0,0,0,.4);
+      --nodefill:#3a4351; --nodeink:#e9ecf2; --hi:#ff9d3d;
+      --chipbg:#293040; --chipbd:#3b4557; --chipink:#c3cde0; }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%}
+  body{background:var(--bg);color:var(--ink);font:13px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+       display:flex;overflow:hidden}
+
+  aside{width:290px;flex:0 0 290px;height:100%;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column}
+  aside h1{font-size:13px;margin:0;padding:14px 16px 4px;letter-spacing:.02em}
+  aside h1 small{display:block;color:var(--muted);font-weight:400;font-size:11px;margin-top:3px}
+  .scroll{overflow-y:auto;overflow-x:hidden;padding:8px 16px 24px;flex:1;
+    scrollbar-width:thin;scrollbar-color:transparent transparent}
+  .scroll:hover{scrollbar-color:var(--line) transparent}
+  .scroll::-webkit-scrollbar{width:6px}
+  .scroll::-webkit-scrollbar-thumb{background:transparent;border-radius:6px}
+  .scroll:hover::-webkit-scrollbar-thumb{background:var(--line)}
+  fieldset{border:0;border-top:1px solid var(--line);margin:0;padding:12px 0 4px}
+  legend{color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-size:10px;padding:0;margin-bottom:6px}
+  input[type=search]{width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+  .clsrow{display:flex;align-items:center;gap:7px;padding:4px 6px;border-radius:6px;cursor:pointer;user-select:none}
+  .clsrow:hover{background:var(--bg)}
+  .clsrow.on{background:var(--chipbg);font-weight:600}
+  .clsrow .sw{width:11px;height:11px;border-radius:3px;flex:0 0 11px}
+  .clsrow .n{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .clsrow .c{color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}
+  #results{margin-top:6px;display:flex;flex-direction:column;gap:1px}
+  #results a{display:block;padding:5px 7px;border-radius:6px;cursor:pointer;color:var(--ink);text-decoration:none}
+  #results a:hover{background:var(--bg)}
+  #results .cd{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:11px;color:var(--accent)}
+  #results .nm{color:var(--muted);font-size:11px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+  main{flex:1;position:relative;height:100%;min-width:0}
+  #stage{position:absolute;inset:0;overflow:hidden}
+  #stage svg{width:100%;height:100%;display:block;cursor:grab}
+  #stage svg:active{cursor:grabbing}
+  #list{position:absolute;inset:0;overflow:auto;padding:72px 20px 40px;display:none}
+  #list ul{list-style:none;margin:0;padding:0 0 0 16px}
+  #list>ul{padding-left:0}
+  #list li{margin:0}
+  #list .tw{display:flex;align-items:baseline;gap:8px;padding:2px 4px;border-radius:5px;cursor:pointer}
+  #list .tw:hover{background:var(--panel)}
+  #list .tw.sel{background:var(--chipbg)}
+  #list .tg{width:12px;flex:0 0 12px;color:var(--muted);text-align:center;font-size:10px}
+  #list .cd{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:11.5px;font-weight:600}
+  #list .nm{color:var(--muted)}
+  #list .ifc{font-size:10px;color:var(--accent);border:1px solid var(--line);border-radius:4px;padding:0 4px}
+
+  .topbar{position:absolute;left:12px;right:12px;top:12px;z-index:6;display:flex;gap:8px;flex-wrap:wrap;align-items:center;pointer-events:none}
+  .topbar>*{pointer-events:auto}
+  .seg{display:flex;gap:3px;background:var(--panel);border:1px solid var(--line);border-radius:9px;padding:3px;box-shadow:var(--shadow)}
+  .seg button{border:0;background:transparent;color:var(--muted);padding:6px 10px;border-radius:6px;cursor:pointer;font:inherit;font-size:12px;white-space:nowrap}
+  .seg button.on{background:var(--bg);color:var(--ink);font-weight:600}
+  .pill{background:var(--panel);border:1px solid var(--line);border-radius:9px;box-shadow:var(--shadow);padding:5px 8px;display:flex;align-items:center;gap:7px;font-size:12px}
+  .pill select,.pill input[type=range]{font:inherit}
+  .pill select{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:6px;padding:4px 6px;max-width:190px}
+  .btn{border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;padding:7px 10px;cursor:pointer;font:inherit;font-size:12px;box-shadow:var(--shadow)}
+  .btn:hover{border-color:var(--accent);color:var(--accent)}
+
+  #crumb{position:absolute;left:12px;bottom:12px;z-index:6;max-width:70%;background:var(--panel);border:1px solid var(--line);
+    border-radius:9px;box-shadow:var(--shadow);padding:6px 10px;font-size:12px;display:flex;gap:4px;flex-wrap:wrap;align-items:center}
+  #crumb a{color:var(--accent);cursor:pointer;text-decoration:none;white-space:nowrap}
+  #crumb span.sep{color:var(--muted)}
+  #crumb b{white-space:nowrap}
+
+  #legend{position:absolute;right:12px;bottom:12px;z-index:6;background:var(--panel);border:1px solid var(--line);border-radius:9px;
+    box-shadow:var(--shadow);padding:8px 11px;font-size:11px;max-width:260px;display:none}
+  #legend .li{display:flex;align-items:center;gap:6px;padding:1px 0}
+  #legend .sw{width:10px;height:10px;border-radius:3px}
+
+  #detail{width:320px;flex:0 0 320px;height:100%;background:var(--panel);border-left:1px solid var(--line);
+    padding:16px;overflow-y:auto;display:none;scrollbar-width:thin;scrollbar-color:var(--line) transparent}
+  #detail::-webkit-scrollbar{width:6px}
+  #detail::-webkit-scrollbar-thumb{background:var(--line);border-radius:6px}
+  #detail.on{display:block}
+  #detail .code{font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;font-size:20px;font-weight:700;letter-spacing:.02em;word-break:break-all}
+  #detail .title{font-size:15px;margin:4px 0 12px}
+  #detail dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0 0 12px}
+  #detail dt{color:var(--muted)}
+  #detail dd{margin:0}
+  #detail .path{font-size:12px;line-height:1.7}
+  #detail .path a{color:var(--accent);cursor:pointer;text-decoration:none}
+  #detail .acts{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+  #detail .x{position:absolute;top:12px;right:14px;cursor:pointer;color:var(--muted);font-size:18px;line-height:1}
+  .tag{display:inline-block;background:var(--chipbg);border:1px solid var(--chipbd);color:var(--chipink);border-radius:5px;padding:1px 6px;font-size:11px}
+
+  .node circle{cursor:pointer}
+  .node text{fill:var(--ink);paint-order:stroke;stroke:var(--bg);stroke-width:3px;stroke-linejoin:round}
+  .link{fill:none;stroke:#8a94a6;stroke-opacity:.42;stroke-width:1.3px}
+  .cell{cursor:pointer;stroke:var(--bg);stroke-width:1px}
+  .cell:hover{stroke:var(--ink);stroke-width:1.5px}
+  .celltext{pointer-events:none;font-size:11px}
+  .match{stroke:var(--hi)!important;stroke-width:2.5px!important}
+  .node.issel>circle,.cell.issel>rect,path.cell.issel,g.issel>rect{
+    stroke:var(--hi)!important;stroke-width:3.5px!important}
+  #list .tw.sel .cd{color:var(--hi)!important}
+  .hint{color:var(--muted);font-size:11px;margin-top:8px}
+</style>
+</head>
+<body>
+<aside>
+  <h1>Граф кодов МССК&nbsp;5.0<small id="sub">Московская строительная система классификаторов</small></h1>
+  <div class="scroll">
+    <input type="search" id="q" placeholder="код или слово — напр. «перегородка», «ЭЛ 30»" autocomplete="off">
+    <div id="results"></div>
+    <fieldset>
+      <legend>Разделы классификатора</legend>
+      <div id="clslist"></div>
+    </fieldset>
+    <fieldset>
+      <legend>Цвет узлов</legend>
+      <div class="seg sm" id="colorseg">
+        <button data-c="cls">по разделу</button>
+        <button data-c="depth" class="on">по глубине</button>
+        <button data-c="ifc">по классу IFC</button>
+      </div>
+      <p class="hint" id="colorhint"></p>
+    </fieldset>
+    <fieldset>
+      <legend>О проекте</legend>
+      <p class="hint">Дерево кодов вида <b>ЭЛ&nbsp;30&nbsp;10&nbsp;15</b>: каждая пара
+      цифр — ветвление на уровень глубже. 13 разделов, <b id="ntot">—</b> кодов.
+      Источник — <a href="https://exp.mos.ru/project-office-for-implementation-of-bim/mssk/" target="_blank" rel="noopener">классификаторы МССК&nbsp;5.0</a> (Мосгосэкспертиза, 2024).</p>
+      <p class="hint" id="built"></p>
+    </fieldset>
+  </div>
+</aside>
+
+<main>
+  <div class="topbar">
+    <div class="seg" id="viewseg">
+      <button data-v="tree" class="on">Дерево</button>
+      <button data-v="radial">Радиальное</button>
+      <button data-v="icicle">Икикл</button>
+      <button data-v="sunburst">Солнце</button>
+      <button data-v="treemap">Тримап</button>
+      <button data-v="force">Граф-сила</button>
+      <button data-v="list">Список</button>
+    </div>
+    <div class="pill">
+      <span>раздел</span>
+      <select id="clssel"></select>
+    </div>
+    <div class="pill" id="depthpill">
+      <span>глубина</span>
+      <input type="range" id="depth" min="1" max="6" value="2" style="width:96px">
+      <b id="depthval">2</b>
+    </div>
+    <button class="btn" id="expandAll">развернуть</button>
+    <button class="btn" id="collapseAll">свернуть</button>
+    <button class="btn" id="resetView">сброс</button>
+    <button class="btn" id="png">PNG</button>
+  </div>
+
+  <div id="stage"></div>
+  <div id="list"></div>
+
+  <div id="crumb"></div>
+  <div id="legend"></div>
+</main>
+
+<div id="detail">
+  <div class="x" id="detClose">×</div>
+  <div class="code" id="detCode"></div>
+  <div class="title" id="detTitle"></div>
+  <div class="acts">
+    <button class="btn" id="detFocus">показать поддерево</button>
+    <button class="btn" id="detUp">на уровень выше</button>
+  </div>
+  <dl id="detDl"></dl>
+  <div class="path" id="detPath"></div>
+  <p class="hint" id="detLink"></p>
+</div>
+
+<script src="vendor/d3.v7.min.js"></script>
+<script src="data.js?v=1"></script>
+<script>
+(function(){
+"use strict";
+const DATA = window.MSSK_DATA;
+if(!DATA){ document.body.innerHTML='<p style="padding:24px">Не загрузились данные. Обновите страницу (Ctrl+F5).</p>'; return; }
+
+/* ---------- палитры ---------- */
+const CLS_COLORS = {
+ "01":"#4e79a7","02":"#59a14f","03":"#e15759","04":"#f28e2b","05":"#76b7b2",
+ "06":"#edc948","07":"#b07aa1","08":"#9c755f","09":"#ff9da7","10":"#86bcb6",
+ "11":"#8cd17d","12":"#a0cbe8","13":"#d37295","ALL":"#8a94a6"
+};
+const CLS_TITLE = {}; DATA.classifiers.forEach(c=>CLS_TITLE[c.id]=c.title);
+const ifcColor = d3.scaleOrdinal(d3.schemeCategory10.concat(d3.schemeSet2||[]));
+function depthColor(d, maxD){
+  const t = maxD>0 ? Math.min(1, d/(maxD)) : 0;
+  return d3.interpolateBlues(0.15 + 0.8*t);
+}
+function readableInk(bg){
+  const c = d3.color(bg); if(!c) return "#111";
+  const L = 0.2126*lin(c.r)+0.7152*lin(c.g)+0.0722*lin(c.b);
+  return L>0.55 ? "#15181f" : "#fff";
+  function lin(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4);}
+}
+
+/* ---------- состояние ---------- */
+const ALL_NODES = DATA.nodes;
+const BY_ID = new Map(ALL_NODES.map(n=>[n.id,n]));
+document.getElementById("ntot").textContent = ALL_NODES.filter(n=>n.code).length.toLocaleString("ru");
+document.getElementById("built").textContent = "собрано "+DATA.meta.built;
+
+/* корень для раздела: если у раздела один префикс — сразу в него (без лишнего «#NN») */
+function rootFor(clsId){
+  if(clsId==="ALL") return "#ALL";
+  const c = DATA.classifiers.find(x=>x.id===clsId);
+  if(c && c.prefixes && c.prefixes.length===1 && BY_ID.has(clsId+":"+c.prefixes[0]))
+    return clsId+":"+c.prefixes[0];
+  return "#"+clsId;
+}
+
+const state = {
+  view:"tree", cls:"07", focus:null,
+  color:"depth", maxDepth:2, colorManual:false,
+  collapsed:new Set(), expanded:new Set(),
+  selected:null, matches:new Set(), q:""
+};
+state.focus = rootFor(state.cls);
+/* автоцвет: «Все разделы» → по разделу, один раздел → по глубине (пока пользователь не выбрал сам) */
+function autoColor(){
+  if(state.colorManual) return;
+  state.color = (state.cls==="ALL") ? "cls" : "depth";
+  document.querySelectorAll("#colorseg button").forEach(x=>x.classList.toggle("on",x.dataset.c===state.color));
+}
+
+/* ---------- построение иерархии ---------- */
+function buildHierarchy(){
+  let subset;
+  if(state.cls==="ALL"){
+    subset = [{id:"#ALL",parent:null,name:"МССК 5.0",code:"",cls:"ALL",depth:0,kids:13,ifc:""}]
+      .concat(ALL_NODES.map(n=> n.parent===null ? Object.assign({},n,{parent:"#ALL"}) : n));
+  } else {
+    subset = ALL_NODES.filter(n=> n.cls===state.cls);
+  }
+  const root = d3.stratify().id(d=>d.id).parentId(d=>d.parent)(subset);
+  root.eachAfter(d=>{
+    d._leaves = d.children ? d3.sum(d.children,c=>c._leaves) : 1;
+    d._sub = d.children ? d3.sum(d.children,c=>c._sub)+d.children.length : 0;
+  });
+  root.each(d=>{ d._all = d.children; });   // сохранить полный список детей
+  return root;
+}
+function findFocus(root){
+  return root.descendants().find(d=>d.data.id===state.focus) || root;
+}
+/* применить свёртку: children ⇄ _children для узлов глубже фокуса */
+function applyCollapse(root, focus){
+  root.each(d=>{ if(d._children){ d.children=d._children; d._children=null; } });
+  const fd = focus.depth;
+  root.each(d=>{
+    if(!d.children) return;
+    const rel = d.depth - fd;
+    let collapse = state.collapsed.has(d.data.id);
+    if(!collapse && rel>=state.maxDepth && !state.expanded.has(d.data.id)) collapse = true;
+    if(collapse){ d._children = d.children; d.children = null; }
+  });
+}
+
+/* ---------- каркас SVG ---------- */
+const stage = document.getElementById("stage");
+let svg = d3.select(stage).append("svg");
+let gRoot = svg.append("g");
+const zoom = d3.zoom().scaleExtent([0.05,8]).on("zoom", ev=> gRoot.attr("transform", ev.transform));
+svg.call(zoom).on("dblclick.zoom", null);
+function size(){ return [stage.clientWidth, stage.clientHeight]; }
+function clearStage(){ gRoot.selectAll("*").remove(); }
+function resetZoom(){ const T=d3.zoomIdentity.translate(0,44); svg.node().__zoom=T; gRoot.attr("transform",T); }
+/* вписать содержимое группы g в холст (замер через getBBox, после отрисовки кадра) */
+function frameGroup(g, padTop){
+  requestAnimationFrame(()=> _frameNow(g, padTop));
+}
+function _frameNow(g, padTop){
+  padTop = padTop==null ? 120 : padTop;
+  const [W,H] = size();
+  let b; try{ b = g.node().getBBox(); }catch(e){ return; }
+  if(!b || !isFinite(b.width) || !isFinite(b.height) || b.width<1 || b.height<1 || W<10 || H<10) return;
+  const pad = 46;
+  const k = Math.max(0.06, Math.min((W-2*pad)/b.width, (H-pad-padTop)/b.height, 3.5));
+  const tx = (W - k*(2*b.x + b.width))/2;
+  const ty = padTop + Math.max(0,((H-padTop-pad) - k*b.height))/2 - k*b.y;
+  if(![tx,ty,k].every(isFinite)) return;
+  const T = d3.zoomIdentity.translate(tx,ty).scale(k);
+  svg.node().__zoom = T;          // синхронизировать внутреннее состояние d3-zoom
+  gRoot.attr("transform", T);     // применить сразу
+}
+
+/* ---------- отрисовка: диспетчер ---------- */
+let CUR = { root:null, focus:null, maxD:1 };
+function render(){
+  document.querySelectorAll("#viewseg button").forEach(b=>b.classList.toggle("on",b.dataset.v===state.view));
+  const listMode = state.view==="list";
+  document.getElementById("list").style.display = listMode?"block":"none";
+  stage.style.display = listMode?"none":"block";
+  document.getElementById("depthpill").style.display =
+    (state.view==="force"||state.view==="list")?"none":"flex";
+  document.getElementById("png").style.display = listMode?"none":"inline-block";
+
+  const root = buildHierarchy();
+  const focus = findFocus(root);
+  const maxD = d3.max(root.descendants(), d=>d.depth) - focus.depth;
+  CUR = { root, focus, maxD };
+  buildCrumb(focus);
+  buildLegend(root, maxD);
+
+  if(listMode){ renderList(root, focus); return; }
+  clearStage();
+  if(state.view==="tree")      renderTree(root, focus, false);
+  else if(state.view==="radial")   renderTree(root, focus, true);
+  else if(state.view==="icicle")   renderPartition(root, focus, false);
+  else if(state.view==="sunburst") renderPartition(root, focus, true);
+  else if(state.view==="treemap")  renderTreemap(root, focus);
+  else if(state.view==="force")    renderForce(root, focus);
+}
+
+/* ---------- цвет узла ---------- */
+function nodeFill(d, maxD){
+  if(state.color==="depth") return depthColor(d.depth - (CUR.focus?CUR.focus.depth:0), maxD||CUR.maxD);
+  if(state.color==="ifc")   return d.data.ifc ? ifcColor(d.data.ifc) : "var(--nodefill)";
+  return CLS_COLORS[d.data.cls] || "var(--nodefill)";
+}
+
+/* ---------- ДЕРЕВО / РАДИАЛЬНОЕ ---------- */
+function renderTree(root, focus, radial){
+  applyCollapse(root, focus);
+  const nodes = focus.descendants(), links = focus.links();
+  const [W,H] = size();
+  let layout;
+  const dense = nodes.length > 90;
+  if(radial){
+    const rad = Math.min(W,H)/2 - 60;
+    layout = d3.tree().size([2*Math.PI, rad]).separation((a,b)=>(a.parent===b.parent?1:2)/Math.max(1,a.depth));
+  }else{
+    const maxLbl = d3.max(nodes, d=> label(d.data, dense?26:44).length) || 12;
+    const dx = dense?13:24, dy = Math.min(320, Math.max(150, maxLbl*6.5 + 60));
+    layout = d3.tree().nodeSize([dx,dy]).separation((a,b)=> (a.parent===b.parent?1:1.4));
+  }
+  layout(focus);
+
+  const g = gRoot.append("g");
+  const pos = radial
+    ? d=>{ const a=d.x-Math.PI/2, r=d.y; return [Math.cos(a)*r, Math.sin(a)*r]; }
+    : d=>[d.y - focus.y, d.x - focus.x];
+
+  g.append("g").attr("class","links").selectAll("path").data(links).join("path")
+    .attr("class","link")
+    .attr("d", radial
+      ? d3.linkRadial().angle(d=>d.x).radius(d=>d.y)
+      : d3.linkHorizontal().x(d=>d.y-focus.y).y(d=>d.x-focus.x));
+
+  const node = g.append("g").selectAll("g").data(nodes).join("g")
+    .attr("class","node")
+    .attr("data-id", d=>d.data.id)
+    .attr("transform", d=>{ const p=pos(d); return `translate(${p[0]},${p[1]})`; });
+
+  node.append("circle")
+    .attr("r", d=> d===focus?7 : (d.children||d._children)?5.5:4)
+    .attr("fill", d=>nodeFill(d, CUR.maxD))
+    .attr("stroke", d=>(d._children?"var(--ink)":"var(--bg)"))
+    .attr("stroke-width", d=> d._children?2:1.2)
+    .classed("match", d=>state.matches.has(d.data.id))
+    .on("click",(ev,d)=>{ ev.stopPropagation(); toggle(d); })
+    .on("dblclick",(ev,d)=>{ ev.stopPropagation(); setFocus(d.data.id); });
+
+  const showText = d=> !dense || d===focus || d.children || d._children || (d.depth-focus.depth)<=1 || state.matches.has(d.data.id);
+  node.filter(showText).append("text")
+    .attr("dy", radial?"0.32em":"0.32em")
+    .attr("x", d=> radial ? 0 : ((d.children||d._children)? -9 : 9))
+    .attr("text-anchor", d=>{
+      if(!radial) return (d.children||d._children)?"end":"start";
+      const deg=(d.x-Math.PI/2)*180/Math.PI; return (deg>90&&deg<270)?"end":"start";
+    })
+    .attr("transform", radial ? d=>{ let deg=(d.x-Math.PI/2)*180/Math.PI; const flip=(deg>90&&deg<270);
+      return `rotate(${deg}) translate(${flip?-11:11},0) ${flip?'rotate(180)':''}`; } : null)
+    .style("font-size", d=> d===focus?"13px":(dense?"9.5px":"11px"))
+    .style("font-weight", d=> d===focus?"700":"400")
+    .text(d=> label(d.data, radial?24:(dense?26:44)))
+    .on("click",(ev,d)=>{ ev.stopPropagation(); select(d.data.id); });
+
+  svg.on("click", ()=> select(null));
+  frameGroup(g);
+  paintSelection();
+}
+
+/* ---------- ИКИКЛ / СОЛНЦЕ (partition) ---------- */
+function renderPartition(root, focus, polar){
+  const [W,H] = size();
+  const depthCap = Math.max(1, state.maxDepth);
+  const h = d3.hierarchy(cloneSub(focus, depthCap)).sum(d=> d.children&&d.children.length?0:1).sort((a,b)=>b.value-a.value);
+  const rings = Math.max(1, d3.max(h.descendants(), d=>d.depth));
+
+  if(polar){
+    const R = Math.min(W,H)/2 - 30;
+    d3.partition().size([2*Math.PI, rings])(h);
+    const arc = d3.arc().startAngle(d=>d.x0).endAngle(d=>d.x1)
+      .padAngle(.005).padRadius(R/3)
+      .innerRadius(d=> d.y0/rings*R).outerRadius(d=> Math.max(d.y0/rings*R, d.y1/rings*R - 1.5));
+    const g = gRoot.append("g");
+    g.selectAll("path").data(h.descendants().filter(d=>d.depth)).join("path")
+      .attr("class","cell")
+      .attr("data-id",d=>d.data.id)
+      .attr("d",arc)
+      .attr("fill",d=>cellFill(d))
+      .classed("match", d=>state.matches.has(d.data.id))
+      .on("click",(ev,d)=>{ ev.stopPropagation(); (d.data._sub? setFocus(d.data.id) : select(d.data.id)); })
+      .on("mousemove",(ev,d)=>tip(ev,d)).on("mouseleave",hideTip);
+    g.selectAll("text").data(h.descendants().filter(d=>d.depth && (d.x1-d.x0)>0.055)).join("text")
+      .attr("class","celltext")
+      .attr("transform",d=>{
+        const ang=(d.x0+d.x1)/2, deg=ang*180/Math.PI-90, r=(d.y0+d.y1)/2/rings*R;
+        const flip = ang>Math.PI;
+        return `rotate(${deg}) translate(${r},0) rotate(${flip?180:0})`;
+      })
+      .attr("text-anchor",d=>((d.x0+d.x1)/2 > Math.PI)?"end":"start")
+      .attr("dy","0.32em").style("fill",d=>readableInk(cellFill(d)))
+      .text(d=> label(d.data, 16));
+    frameGroup(g);
+  }else{
+    const colW = Math.max(150, (W-60)/rings);
+    d3.partition().size([Math.max(H-24, h.leaves().length*13), rings*colW])(h);
+    const g = gRoot.append("g");
+    const cells = g.selectAll("g").data(h.descendants().filter(d=>d.depth)).join("g")
+      .attr("data-id",d=>d.data.id)
+      .attr("transform",d=>`translate(${d.y0},${d.x0})`);
+    cells.append("rect")
+      .attr("class","cell")
+      .attr("width",d=>Math.max(1,d.y1-d.y0-2)).attr("height",d=>Math.max(1,d.x1-d.x0-1))
+      .attr("fill",d=>cellFill(d))
+      .classed("match", d=>state.matches.has(d.data.id))
+      .on("click",(ev,d)=>{ ev.stopPropagation(); (d.data._sub? setFocus(d.data.id) : select(d.data.id)); })
+      .on("mousemove",(ev,d)=>tip(ev,d)).on("mouseleave",hideTip);
+    cells.append("text").attr("class","celltext")
+      .attr("x",6).attr("y",d=>Math.min(15,(d.x1-d.x0)/2+4))
+      .style("fill",d=>readableInk(cellFill(d)))
+      .style("display",d=>(d.x1-d.x0)<11?"none":null)
+      .text(d=> label(d.data, Math.max(5,(d.y1-d.y0)/7)) );
+    frameGroup(g);
+  }
+  svg.on("click", ()=> select(null));
+  paintSelection();
+}
+function cellFill(d){
+  if(state.color==="depth") return depthColor(d.depth, Math.max(2, state.maxDepth));
+  if(state.color==="ifc")   return d.data.ifc ? ifcColor(d.data.ifc) : "#7b8494";
+  return CLS_COLORS[d.data.cls] || "#7b8494";
+}
+
+/* ---------- ТРИМАП ---------- */
+function renderTreemap(root, focus){
+  const [W,H] = size();
+  const h = d3.hierarchy(cloneSub(focus, Math.max(2,state.maxDepth))).sum(d=> d.children&&d.children.length?0:1).sort((a,b)=>b.value-a.value);
+  d3.treemap().size([W-20,H-120]).paddingOuter(3).paddingTop(d=>d.children?15:0).paddingInner(2).round(true)(h);
+  const g = gRoot.append("g").attr("transform","translate(10,10)");
+  const cell = g.selectAll("g").data(h.descendants().filter(d=>d.depth)).join("g")
+    .attr("data-id",d=>d.data.id)
+    .attr("transform",d=>`translate(${d.x0},${d.y0})`);
+  cell.append("rect")
+    .attr("class","cell")
+    .attr("width",d=>Math.max(0,d.x1-d.x0)).attr("height",d=>Math.max(0,d.y1-d.y0))
+    .attr("fill",d=>{ const col=d3.color(cellFill(d))||d3.color("#7b8494"); return d.children? (col.opacity=.28,col)+"" : col+""; })
+    .classed("match", d=>state.matches.has(d.data.id))
+    .on("click",(ev,d)=>{ ev.stopPropagation(); if(d.children) setFocus(d.data.id); else select(d.data.id); })
+    .on("mousemove",(ev,d)=>tip(ev,d)).on("mouseleave",hideTip);
+  cell.append("text").attr("class","celltext").attr("x",4).attr("y",12)
+    .style("fill",d=> d.children? "var(--ink)" : readableInk(cellFill(d)))
+    .style("display",d=> (d.x1-d.x0)<28||(d.y1-d.y0)<14 ?"none":null)
+    .text(d=> label(d.data, (d.x1-d.x0)/7));
+  frameGroup(g);
+  svg.on("click", ()=> select(null));
+  paintSelection();
+}
+
+/* ---------- ГРАФ-СИЛА ---------- */
+let sim=null;
+function renderForce(root, focus){
+  if(sim) sim.stop();
+  applyCollapse(root, focus);
+  let nodes = focus.descendants();
+  if(nodes.length>700){
+    // авто-подрезка: оставить 2 уровня
+    root.each(d=>{ if(d._children){d.children=d._children;d._children=null;} });
+    root.each(d=>{ if(d.children && (d.depth-focus.depth)>=2){ d._children=d.children; d.children=null; } });
+    nodes = focus.descendants();
+  }
+  const links = focus.links().map(l=>({source:l.source.data.id,target:l.target.data.id}));
+  const N = nodes.map(d=>({id:d.data.id, d, deg:d.depth-focus.depth}));
+  const [W,H]=size();
+  const g = gRoot.append("g");
+  const link = g.append("g").selectAll("line").data(links).join("line").attr("class","link");
+  const node = g.append("g").selectAll("g").data(N).join("g").attr("class","node")
+    .attr("data-id",n=>n.id)
+    .call(d3.drag()
+      .on("start",(ev,n)=>{ if(!ev.active) sim.alphaTarget(.3).restart(); n.fx=n.x; n.fy=n.y; })
+      .on("drag",(ev,n)=>{ n.fx=ev.x; n.fy=ev.y; })
+      .on("end",(ev,n)=>{ if(!ev.active) sim.alphaTarget(0); n.fx=null; n.fy=null; }));
+  node.append("circle")
+    .attr("r",n=> n.d===focus?9 : (n.d.children||n.d._children)?6:4.5)
+    .attr("fill",n=>nodeFill(n.d, CUR.maxD))
+    .attr("stroke",n=> n.d._children?"var(--ink)":"var(--bg)").attr("stroke-width",n=>n.d._children?2:1.2)
+    .classed("match",n=>state.matches.has(n.id))
+    .on("click",(ev,n)=>{ ev.stopPropagation(); toggle(n.d); })
+    .on("dblclick",(ev,n)=>{ ev.stopPropagation(); setFocus(n.id); });
+  node.append("text").attr("dy","0.32em").attr("x",8).style("font-size","10.5px")
+    .text(n=>label(n.d.data,22))
+    .on("click",(ev,n)=>{ ev.stopPropagation(); select(n.id); });
+  const idx = new Map(N.map(n=>[n.id,n]));
+  sim = d3.forceSimulation(N)
+    .force("link", d3.forceLink(links).id(d=>d.id).distance(l=>40+8*(idx.get(l.target.id||l.target)?.deg||1)).strength(.7))
+    .force("charge", d3.forceManyBody().strength(-160))
+    .force("x", d3.forceX(W/2).strength(.04))
+    .force("y", d3.forceY(H/2).strength(.04))
+    .force("collide", d3.forceCollide(16))
+    .on("tick",()=>{
+      link.attr("x1",l=>idx.get(l.source.id||l.source).x).attr("y1",l=>idx.get(l.source.id||l.source).y)
+          .attr("x2",l=>idx.get(l.target.id||l.target).x).attr("y2",l=>idx.get(l.target.id||l.target).y);
+      node.attr("transform",n=>`translate(${n.x},${n.y})`);
+    });
+  resetZoom();
+  svg.on("click", ()=> select(null));
+  paintSelection();
+}
+
+/* ---------- СПИСОК (indented outline) ---------- */
+function renderList(root, focus){
+  const host = d3.select("#list").html("");
+  const ul = host.append("ul");
+  function row(d, parentUl){
+    const li = parentUl.append("li");
+    const kids = d._all || [];
+    const open = kids.length && !state.collapsed.has(d.data.id) &&
+      ((d.depth-focus.depth)<state.__listAutoDepth || state.expanded.has(d.data.id));
+    const tw = li.append("div").attr("class","tw"+(state.selected===d.data.id?" sel":""))
+      .on("click",()=>{ select(d.data.id); if(kids.length) toggle(d,true); });
+    tw.append("span").attr("class","tg").text(kids.length ? (open?"▾":"▸") : "");
+    tw.append("span").attr("class","cd").style("color",CLS_COLORS[d.data.cls]||"var(--ink)").text(d.data.code||d.data.name);
+    if(d.data.code) tw.append("span").attr("class","nm").text(d.data.name);
+    if(d.data.ifc) tw.append("span").attr("class","ifc").text(d.data.ifc);
+    tw.append("span").attr("class","nm").style("margin-left","auto").text(kids.length?("("+d._sub+")"):"");
+    if(open){
+      const cul = li.append("ul");
+      kids.forEach(c=> row(c, cul));
+    }
+  }
+  state.__listAutoDepth = 2;
+  row(focus, ul);
+}
+
+/* ---------- helpers ---------- */
+function cloneSub(node, maxRel){
+  // построить обычный объект-дерево из d3-узла (все дети из _all), с опц. ограничением глубины
+  function rec(n, rel){
+    const o = {id:n.data.id, code:n.data.code, name:n.data.name, ifc:n.data.ifc, cls:n.data.cls, _sub:n._sub};
+    const kids = n._all || [];
+    if(kids.length && (maxRel==null || rel<maxRel)) o.children = kids.map(c=>rec(c, rel+1));
+    return o;
+  }
+  return rec(node, 0);
+}
+function plural(n, one, few, many){
+  const m10=n%10, m100=n%100;
+  if(m10===1 && m100!==11) return one;
+  if(m10>=2 && m10<=4 && (m100<10||m100>=20)) return few;
+  return many;
+}
+function label(nd, max){
+  const t = nd.code ? (nd.code + " · " + nd.name) : nd.name;
+  max = Math.max(4, max|0);
+  return t.length>max ? t.slice(0,max-1)+"…" : t;
+}
+function toggle(d, fromList){
+  const id = d.data.id;
+  const kids = d._all || d.children || d._children;
+  if(!kids || !kids.length) { select(id); return; }
+  const isOpen = fromList
+    ? (!state.collapsed.has(id) && ((d.depth-CUR.focus.depth)<(state.__listAutoDepth||2) || state.expanded.has(id)))
+    : !!d.children;
+  if(isOpen){ state.collapsed.add(id); state.expanded.delete(id); }
+  else { state.collapsed.delete(id); state.expanded.add(id); }
+  render();
+}
+function setFocus(id){
+  state.focus = id; state.collapsed.clear(); state.expanded.clear();
+  const n = BY_ID.get(id);
+  if(n && n.cls && n.cls!=="ALL" && n.cls!==state.cls){ state.cls=n.cls; syncClsUI(); }
+  render();
+}
+function select(id){
+  const box = document.getElementById("detail");
+  const wasOpen = box.classList.contains("on");
+  state.selected = id;
+  if(id) showDetail(id); else box.classList.remove("on");
+  const nowOpen = box.classList.contains("on");
+  paintSelection();
+  if(state.view==="list"){ renderList(CUR.root, CUR.focus); return; }
+  if(wasOpen!==nowOpen) render();   // ширина холста изменилась — перекомпоновать
+}
+function paintSelection(){
+  d3.select("#stage").selectAll("[data-id]")
+    .classed("issel", function(){ return this.getAttribute("data-id")===state.selected; });
+}
+function syncClsUI(){
+  document.getElementById("clssel").value = state.cls;
+  document.querySelectorAll("#clslist .clsrow").forEach(r=>r.classList.toggle("on", r.dataset.id===state.cls));
+}
+
+/* ---------- крошки ---------- */
+function buildCrumb(focus){
+  const el = document.getElementById("crumb"); el.innerHTML="";
+  const chain = focus.ancestors().reverse();
+  chain.forEach((d,i)=>{
+    if(i) el.append(Object.assign(document.createElement("span"),{className:"sep",textContent:"›"}));
+    if(d===focus){ const b=document.createElement("b"); b.textContent=(d.data.code||d.data.name); el.append(b); }
+    else{ const a=document.createElement("a"); a.textContent=(d.data.code||d.data.name);
+      a.onclick=()=>setFocus(d.data.id); el.append(a); }
+  });
+  if(focus.data.code){
+    const t=document.createElement("span"); t.className="sep"; t.textContent=" — "+focus.data.name; el.append(t);
+  }
+}
+
+/* ---------- легенда ---------- */
+function buildLegend(root, maxD){
+  const el = document.getElementById("legend");
+  let rows=[];
+  if(state.color==="cls"){
+    if(state.cls==="ALL"){
+      rows = DATA.classifiers.map(c=>[CLS_COLORS[c.id], c.id+" "+c.short]);
+    }else{ el.style.display="none"; return; }
+  }else if(state.color==="depth"){
+    rows = d3.range(0, Math.max(2,maxD)+1).map(i=>[depthColor(i,maxD), "уровень "+i]);
+  }else{
+    const set = new Set(); root.each(d=>{ if(d.data.ifc) set.add(d.data.ifc); });
+    if(!set.size){ el.style.display="none"; return; }
+    rows = [...set].sort().slice(0,16).map(k=>[ifcColor(k),k]);
+  }
+  el.style.display="block";
+  el.innerHTML = rows.map(([c,t])=>`<div class="li"><span class="sw" style="background:${c}"></span>${t}</div>`).join("");
+}
+
+/* ---------- тултип ---------- */
+let tipEl=null;
+function tip(ev,d){
+  if(!tipEl){ tipEl=document.createElement("div"); tipEl.className="pill";
+    tipEl.style.cssText+="position:fixed;z-index:20;pointer-events:none;max-width:320px"; document.body.append(tipEl); }
+  tipEl.style.display="block";
+  tipEl.innerHTML = `<b style="font-family:ui-monospace,monospace">${d.data.code||""}</b>&nbsp; ${d.data.name}` +
+     (d.data.ifc?` <span class="tag">${d.data.ifc}</span>`:"") +
+     (d._sub||d.data._sub?` <span style="color:var(--muted)">· ${d._sub||d.data._sub} в поддереве</span>`:"");
+  tipEl.style.left = Math.min(ev.clientX+14, innerWidth-330)+"px";
+  tipEl.style.top  = (ev.clientY+14)+"px";
+}
+function hideTip(){ if(tipEl) tipEl.style.display="none"; }
+
+/* ---------- панель узла ---------- */
+function showDetail(id){
+  const n = BY_ID.get(id); if(!n) return;
+  const box = document.getElementById("detail"); box.classList.add("on");
+  document.getElementById("detCode").textContent = n.code || "—";
+  document.getElementById("detTitle").textContent = n.name || "";
+  const dl = document.getElementById("detDl"); dl.innerHTML="";
+  const kids = ALL_NODES.filter(x=>x.parent===id);
+  const rows = [
+    ["Раздел", (n.cls&&n.cls!=="ALL") ? (n.cls+" · "+(CLS_TITLE[n.cls]||"")) : "все разделы"],
+    ["Класс IFC", n.ifc || "—"],
+    ["Глубина", n.depth],
+    ["Прямых потомков", kids.length],
+    ["Всего в поддереве", subtreeCount(id)],
+  ];
+  rows.forEach(([k,v])=>{ dl.insertAdjacentHTML("beforeend",`<dt>${k}</dt><dd>${v}</dd>`); });
+  // путь
+  const p = document.getElementById("detPath"); p.innerHTML="<b>Путь:</b><br>";
+  let cur = n, chain=[];
+  while(cur){ chain.unshift(cur); cur = cur.parent ? BY_ID.get(cur.parent) : null; }
+  chain.forEach((c,i)=>{
+    const a=document.createElement("a"); a.textContent = (c.code||c.name);
+    a.onclick=()=>{ setFocus(c.id); select(c.id); };
+    p.append(a); if(i<chain.length-1) p.append(Object.assign(document.createElement("span"),{textContent:" › ",style:"color:var(--muted)"}));
+  });
+  // ссылка на источник
+  const cinfo = DATA.classifiers.find(c=>c.id===n.cls);
+  const lk = document.getElementById("detLink");
+  const PDF_BASE = "";   // publish.py заменяет на "" (тогда ссылка ведёт на exp.mos.ru)
+  if(cinfo && PDF_BASE){
+    const rel = `${PDF_BASE}${n.cls}. ${cinfo.title}/${n.cls}. ${cinfo.title}.pdf`;
+    lk.innerHTML = `Источник: <a href="${encodeURI(rel)}" target="_blank" rel="noopener">${n.cls}. ${cinfo.title}.pdf</a>`;
+  } else if(cinfo){
+    lk.innerHTML = `Источник: <a href="https://exp.mos.ru/project-office-for-implementation-of-bim/mssk/" target="_blank" rel="noopener">${n.cls}. ${cinfo.title} — МССК&nbsp;5.0 (exp.mos.ru)</a>`;
+  } else lk.textContent="";
+  document.getElementById("detFocus").onclick = ()=> setFocus(id);
+  document.getElementById("detUp").onclick = ()=> { if(n.parent) setFocus(n.parent); };
+}
+function subtreeCount(id){
+  let c=0; const stack=[id];
+  const childrenOf = new Map();
+  ALL_NODES.forEach(x=>{ if(!childrenOf.has(x.parent)) childrenOf.set(x.parent,[]); childrenOf.get(x.parent).push(x.id); });
+  while(stack.length){ const cur=stack.pop(); const ch=childrenOf.get(cur)||[]; c+=ch.length; ch.forEach(k=>stack.push(k)); }
+  return c;
+}
+document.getElementById("detClose").onclick = ()=> select(null);
+
+/* ---------- поиск ---------- */
+const qEl = document.getElementById("q"), resEl = document.getElementById("results");
+qEl.addEventListener("input", ()=>{
+  const q = qEl.value.trim().toLowerCase();
+  state.q = q;
+  state.matches = new Set();
+  resEl.innerHTML="";
+  if(q.length<2){ render(); return; }
+  const pool = state.cls==="ALL" ? ALL_NODES : ALL_NODES.filter(n=>n.cls===state.cls || n.cls==="ALL");
+  const hits = [];
+  for(const n of pool){
+    if(!n.code && !n.name) continue;
+    const hay = (n.code+" "+n.name).toLowerCase();
+    if(hay.includes(q)){ hits.push(n); state.matches.add(n.id); }
+    if(hits.length>400) break;
+  }
+  hits.slice(0,60).forEach(n=>{
+    const a=document.createElement("a");
+    a.innerHTML = `<span class="cd">${n.code||"—"}</span> <span class="nm">${n.name}</span>`;
+    a.onclick = ()=>{
+      // раскрыть предков и сфокусироваться на родителе
+      let cur = n, anc=[];
+      while(cur){ anc.unshift(cur); cur = cur.parent?BY_ID.get(cur.parent):null; }
+      state.cls = (n.cls&&n.cls!=="ALL")?n.cls:state.cls; syncClsUI();
+      state.focus = anc.length>3 ? anc[anc.length-3].id : anc[0].id;
+      state.collapsed.clear();
+      anc.forEach(x=>state.expanded.add(x.id));
+      select(n.id);
+    };
+    resEl.append(a);
+  });
+  resEl.insertAdjacentHTML("afterbegin",
+    `<div class="hint">${state.matches.size} ${plural(state.matches.size,"совпадение","совпадения","совпадений")}${hits.length>60?" · показаны 60":""}</div>`);
+  render();
+});
+
+/* ---------- список разделов в сайдбаре ---------- */
+const clsListEl = document.getElementById("clslist");
+[{id:"ALL",title:"Все разделы",short:"Все",count:ALL_NODES.filter(n=>n.code).length}]
+  .concat(DATA.classifiers)
+  .forEach(c=>{
+    const row = document.createElement("div");
+    row.className = "clsrow"+(c.id===state.cls?" on":"");
+    row.dataset.id = c.id;
+    row.innerHTML = `<span class="sw" style="background:${CLS_COLORS[c.id]||'#888'}"></span>`+
+      `<span class="n">${c.id==="ALL"?"":c.id+" "}${c.title}</span><span class="c">${(c.count||0).toLocaleString("ru")}</span>`;
+    row.onclick = ()=> pickClassifier(c.id);
+    clsListEl.append(row);
+  });
+function pickClassifier(id){
+  state.cls = id; state.focus = rootFor(id);
+  state.collapsed.clear(); state.expanded.clear();
+  qEl.value=""; state.q=""; state.matches.clear(); resEl.innerHTML="";
+  autoColor(); syncClsUI(); render();
+}
+
+/* ---------- селект раздела в топбаре ---------- */
+const clsSel = document.getElementById("clssel");
+clsSel.insertAdjacentHTML("beforeend", `<option value="ALL">Все разделы</option>`);
+DATA.classifiers.forEach(c=> clsSel.insertAdjacentHTML("beforeend", `<option value="${c.id}">${c.id}. ${c.title}</option>`));
+clsSel.value = state.cls;
+clsSel.onchange = ()=> pickClassifier(clsSel.value);
+
+/* ---------- переключатели ---------- */
+document.querySelectorAll("#viewseg button").forEach(b=>{
+  b.onclick = ()=>{ state.view=b.dataset.v; render(); };
+});
+document.querySelectorAll("#colorseg button").forEach(b=>{
+  b.onclick = ()=>{ state.color=b.dataset.c; state.colorManual=true;
+    document.querySelectorAll("#colorseg button").forEach(x=>x.classList.toggle("on",x===b));
+    document.getElementById("colorhint").textContent =
+      b.dataset.c==="ifc" ? "класс IFC заполнен только в разделе 07 «Элементы»" :
+      b.dataset.c==="depth" ? "оттенок = насколько глубоко код от корня" :
+      "цвет = раздел классификатора (виден при «Все разделы»)";
+    render(); };
+});
+const depthEl = document.getElementById("depth"), depthVal = document.getElementById("depthval");
+depthEl.oninput = ()=>{ state.maxDepth = +depthEl.value; depthVal.textContent = depthEl.value; render(); };
+document.getElementById("expandAll").onclick = ()=>{
+  state.collapsed.clear();
+  CUR.root.each(d=> state.expanded.add(d.data.id));
+  state.maxDepth = 6; depthEl.value=6; depthVal.textContent="6"; render();
+};
+document.getElementById("collapseAll").onclick = ()=>{
+  state.expanded.clear(); state.collapsed.clear();
+  state.maxDepth = 1; depthEl.value=1; depthVal.textContent="1"; render();
+};
+document.getElementById("resetView").onclick = ()=>{
+  state.collapsed.clear(); state.expanded.clear(); state.maxDepth=2;
+  depthEl.value=2; depthVal.textContent="2";
+  state.selected=null; document.getElementById("detail").classList.remove("on");
+  state.focus = rootFor(state.cls);
+  render();
+};
+document.getElementById("png").onclick = exportPNG;
+
+/* ---------- экспорт PNG ---------- */
+function exportPNG(){
+  const node = svg.node();
+  const clone = node.cloneNode(true);
+  const [W,H] = size();
+  clone.setAttribute("width",W); clone.setAttribute("height",H);
+  clone.setAttribute("xmlns","http://www.w3.org/2000/svg");
+  const css = getComputedStyle(document.body);
+  const bg = css.getPropertyValue("--bg").trim() || "#fff";
+  const rect = document.createElementNS("http://www.w3.org/2000/svg","rect");
+  rect.setAttribute("width","100%"); rect.setAttribute("height","100%"); rect.setAttribute("fill",bg);
+  clone.insertBefore(rect, clone.firstChild);
+  // впаять цвета вместо var()
+  clone.querySelectorAll("*").forEach(e=>{
+    ["fill","stroke"].forEach(p=>{
+      const v=e.getAttribute(p);
+      if(v&&v.startsWith("var(")){ e.setAttribute(p, css.getPropertyValue(v.slice(4,-1).trim()).trim()||"#888"); }
+    });
+  });
+  const str = new XMLSerializer().serializeToString(clone);
+  const img = new Image();
+  img.onload = ()=>{
+    const sc = 2, c=document.createElement("canvas"); c.width=W*sc; c.height=H*sc;
+    const ctx=c.getContext("2d"); ctx.scale(sc,sc); ctx.drawImage(img,0,0);
+    c.toBlob(bl=>{
+      const a=document.createElement("a");
+      a.href=URL.createObjectURL(bl);
+      a.download = `МССК_${state.cls}_${state.view}.png`;
+      a.click();
+    });
+  };
+  img.src = "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(str);
+}
+
+/* ---------- resize ---------- */
+let rt=null;
+addEventListener("resize", ()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(state.view!=="list") render(); }, 200); });
+
+/* ---------- старт ---------- */
+document.getElementById("colorhint").textContent = "цвет = раздел классификатора (виден при «Все разделы»)";
+render();
+// перерисовать, когда шрифты и раскладка окончательно устоялись (иначе getBBox мажет)
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(()=>{ if(state.view!=="list") render(); });
+setTimeout(()=>{ if(state.view!=="list") render(); }, 250);
+})();
+</script>
+</body>
+</html>
